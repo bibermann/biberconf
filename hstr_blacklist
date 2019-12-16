@@ -1,0 +1,8 @@
+exit
+ls -a
+cd ..
+l
+gitk
+cd
+ll
+ls
