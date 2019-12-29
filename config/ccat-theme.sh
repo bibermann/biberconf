@@ -1,0 +1,1 @@
+CCAT_THEME="ekvoli"

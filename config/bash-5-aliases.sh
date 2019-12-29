@@ -11,7 +11,9 @@ alias la='ls -A'
 alias git='LANGUAGE=en_US.UTF-8 git'
 alias prettyjson='python -m json.tool'
 
-alias stderred="LD_PRELOAD=$HOME/tools/stderred/build/libstderred.so\${LD_PRELOAD:+:\$LD_PRELOAD}"
+# requires stderred
+#   https://github.com/sickill/stderred
+alias stderred="LD_PRELOAD=$HOME/.biberconf/thirdparty/stderred/build/libstderred.so\${LD_PRELOAD:+:\$LD_PRELOAD}"
 
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
@@ -23,40 +25,42 @@ __ccat_test_themes() {
 }
 
 _ccat_test_all_themes() {
-    local sample="${1-~/.biberconf/samples/fibonacci.py}"
+    local sample="${1-$HOME/.biberconf/samples/fibonacci.py}"
     __ccat_test_themes $sample $(for f in $(cd /usr/share/highlight/themes; ls *); do echo ${f%.*}; done)
 }
 
 _ccat_test_selected_themes() {
-    local sample="${1-~/.biberconf/samples/fibonacci.py}"
+    local sample="${1-$HOME/.biberconf/samples/fibonacci.py}"
     __ccat_test_themes $sample andes bluegreen dante darkslategray denim edit-godot edit-vim-dark ekvoli leo lucretia moria nightshimmer orion pablo zmrok
 }
 
 ccat() {
     # requires highlight
     #   sudo apt install highlight
-    local theme="ekvoli"
-
     for f in "$@"; do
         # print filename (if we have to print multiple files)
         if [[ $# -ne 1 ]]; then echo -e "\033[1;37m$f\033[0m"; fi
         # print file contents with syntax highlighting
-        highlight -O xterm256 --force -s "$theme" -- "$f"
+        highlight -O xterm256 --force -s "$CCAT_THEME" -- "$f"
     done
 }
 
 pss() {
     # requires pss
     #   https://github.com/eliben/pss
-    local ignore="node_modules dist"
-
     local cmd=()
-    for i in ignore; do cmd+=(--ignore-dir "$i"); done
-    python3 ~/tools/pss "${cmd[@]}" "$@"
+    for i in $PSS_IGNORE; do cmd+=(--ignore-dir "$i"); done
+    python3 ~/.biberconf/thirdparty/pss "${cmd[@]}" "$@"
 }
 
 #****************
 # personal stuff
 #****************
+
+. ~/.biberconf/config/pss-ignore.sh
+. ~/.biberconf/pss-ignore.sh
+
+. ~/.biberconf/config/ccat-theme.sh
+. ~/.biberconf/ccat-theme.sh
 
 . ~/.biberconf/bash-aliases.sh

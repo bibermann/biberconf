@@ -39,7 +39,7 @@ unset color_prompt
 #***************
 
 if [[ -d ~/.pyenv/bin ]]; then
-    export PATH="~/.pyenv/bin:$PATH"
+    export PATH="$HOME/.pyenv/bin:$PATH"
 fi
 
 if [ -x "$(command -v pyenv)" ]; then

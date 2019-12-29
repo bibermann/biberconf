@@ -1,0 +1,14 @@
+[submodule "thirdparty/bash-git-prompt"]
+	path = thirdparty/bash-git-prompt
+	url = https://github.com/bibermann/bash-git-prompt.git
+	branch = configurable-venv-positioning
+[submodule "thirdparty/stderred"]
+	path = thirdparty/stderred
+	url = https://github.com/sickill/stderred.git
+[submodule "thirdparty/pss"]
+	path = thirdparty/pss
+	url = https://github.com/eliben/pss.git
+[submodule "thirdparty/hstr"]
+	path = thirdparty/hstr
+	url = https://github.com/bibermann/hstr.git
+	branch = tweak-prompt
