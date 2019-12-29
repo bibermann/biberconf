@@ -1,0 +1,11 @@
+atom
+atom .
+atom ..
+cd
+cd ..
+exit
+gitk
+l
+ll
+ls
+ls -a

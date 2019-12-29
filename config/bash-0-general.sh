@@ -9,13 +9,8 @@ shopt -s checkwinsize
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
-# set variable identifying the chroot you work in (used in the prompt below)
-if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
-    debian_chroot=$(cat /etc/debian_chroot)
-fi
-
 case "$TERM" in
-    # The environment hints we should have a colored terminal
+    # The environment hints us that we should have a colored terminal
     xterm-color|*-256color) color_prompt=yes;;
 esac
 
@@ -31,35 +26,30 @@ if [ -z "$color_prompt" ] && [ -n "$force_color_prompt" ]; then
 fi
 unset force_color_prompt
 
-if [ -f ~/.settings/bash_coloring.sh ]; then
-    . ~/.settings/bash_coloring.sh
-fi
-
-if [ -f ~/.settings/bash_completion.sh ]; then
-    . ~/.settings/bash_completion.sh
-fi
-
-if [ -f ~/.settings/bash_history.sh ]; then
-    . ~/.settings/bash_history.sh
-fi
-
-if [ -f ~/.settings/bash_prompt.sh ]; then
-    . ~/.settings/bash_prompt.sh
-fi
-
-if [ -f ~/.bash_aliases ]; then
-    . ~/.bash_aliases
-fi
+. ~/.biberconf/config/bash-1-coloring.sh
+. ~/.biberconf/config/bash-2-completion.sh
+. ~/.biberconf/config/bash-3-history.sh
+. ~/.biberconf/config/bash-4-prompt.sh
+. ~/.biberconf/config/bash-5-aliases.sh
 
 unset color_prompt
 
+#***************
+# pyenv support
+#***************
+
 if [[ -d ~/.pyenv/bin ]]; then
-    export PATH="/home/bibermann/.pyenv/bin:$PATH"
+    export PATH="~/.pyenv/bin:$PATH"
 fi
+
 if [ -x "$(command -v pyenv)" ]; then
     eval "$(pyenv init -)"
     eval "$(pyenv virtualenv-init -)"
 fi
+
+#****************
+# direnv support
+#****************
 
 if [ -x "$(command -v direnv)" ]; then
     eval "$(direnv hook bash)"

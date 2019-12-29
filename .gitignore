@@ -1,2 +1,7 @@
+/bashrc
+/bash-aliases.sh
+/bash-completion.sh
+/gitconfig
+/hstr_blacklist
+/profile.sh
 /ssh_config
-/bash_personal.sh

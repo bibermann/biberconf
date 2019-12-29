@@ -1,12 +1,7 @@
-[user]
-	name = Fabian Sandoval Saldias
-	email = fabianvss@gmail.com
 [core]
 	editor = vim
 [color]
 	ui = true
-[alias]
-	pullall = "!f(){ git pull \"$@\" && git submodule update --init --recursive; }; f"
 [diff]
 	tool = meld
 [merge]
@@ -19,5 +14,5 @@
     lg = log --graph --abbrev-commit --decorate \
         --format=format:'%C(yellow)%h%C(reset) %C(white)%s%C(reset) %C(dim white)%an%C(reset) %C(yellow)%ar%C(reset)%C(auto)%d%C(reset)' \
         --color=always
-	alg = !/home/bibermann/tools/git-auto-log.sh "$@"
-	df = !/home/bibermann/tools/git-diff-minimal.sh "$@"
+    alg = !~/.biberconf/scripts/git-auto-log.sh "$@"
+    df = !~/.biberconf/scripts/git-diff-minimal.sh "$@"
