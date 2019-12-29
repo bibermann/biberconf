@@ -64,7 +64,7 @@ run_hstr() {
     exec {hstrout}>&-
 }
 
-export HSTR_CONFIG=hicolor,prompt-bottom,help-on-opposite-side,blacklist
+export HSTR_CONFIG=hicolor,prompt-bottom,help-on-opposite-side,hide-basic-help,blacklist
 #if [[ $- =~ .*i.* ]]; then bind '"\C-r": "\C-a HISTFILE='$hstr_session_file' hstr -- \C-j"'; fi
 if [[ $- =~ .*i.* ]]; then bind -x '"\C-s": "run_hstr"'; fi
 #if [[ $- =~ .*i.* ]]; then bind '"\C-xk": "\C-a hstr -k \C-j"'; fi

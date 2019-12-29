@@ -20,7 +20,7 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 
 # Note: requires alias for "git lg" in your .gitconfig
 # TODO: make "14" configurable by argument
-alias auto-git-log='while true; do find `git rev-parse --show-toplevel`/.git/{HEAD,refs/} | entr -cd git lg -n14; done'
+alias auto-git-log='~/tools/git-auto-log.sh'
 
 __this_script_dir() {
     # https://stackoverflow.com/a/246128/704821

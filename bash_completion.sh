@@ -14,6 +14,14 @@ if ! shopt -oq posix; then
 fi
 
 # auto completion for git aliases (see ~/.gitconfig)
+_git_lg ()
+{
+  __gitcomp_nl "$(__git_refs)"
+}
+_git_alg ()
+{
+  __gitcomp_nl "$(__git_refs)"
+}
 _git_df ()
 {
   __gitcomp_nl "$(__git_refs)"
