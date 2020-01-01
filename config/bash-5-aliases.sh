@@ -57,10 +57,10 @@ pss() {
 # personal stuff
 #****************
 
-. ~/.biberconf/config/pss-ignore.sh
-. ~/.biberconf/pss-ignore.sh
+. ~/.biberconf/config/pss_ignore.sh
+. ~/.biberconf/pss_ignore.sh
 
-. ~/.biberconf/config/ccat-theme.sh
-. ~/.biberconf/ccat-theme.sh
+. ~/.biberconf/config/ccat_theme.sh
+. ~/.biberconf/ccat_theme.sh
 
-. ~/.biberconf/bash-aliases.sh
+. ~/.biberconf/bash_aliases.sh

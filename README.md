@@ -1,4 +1,4 @@
-# biberconf
+# Biberconf
 
 Tools, tweaks and configs for a Bash command line environment.
 
