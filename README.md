@@ -51,51 +51,29 @@ cd ~/.biberconf
 
 ### Terminal prompt
 
-Like the following but with color coding:
+![terminal-prompt](img/terminal-prompt.png)
+
+Legend:
 
 ```bash
-#      ,- signal name or exit code from last command
-#     |  ,- current working directory
-#     | |             ,- current virtual environment
-#     | |            |       ,- current Git branch
-#     | |            |      |       ,- remote Git status
-#     | |            |      |      |   ,- local Git status
-#     | |            |      |      |  |
-    INT ~/.biberconf myvenv master ↑2 *3+2
+#    ,------------------------------------ signal name or exit code from last command
+#   |                  ,------------------ current virtual environment
+#   |                 |       ,----------- current Git branch
+#   |                 |      |       ,---- remote Git status
+#   |                 |      |      |   ,- local Git status
+#   |                 |      |      |  |
+    INT ~/gh/testrepo myvenv master ↑2 *3+2
 20:08 $ |
-#   |   |
-#   |    `- cursor, aligned with the working directory text above
-#    `- current time
 ```
 
 ### Bash history
 
-Like the following but with colors. Within the screen you can type keywords to filter the list and select a line with the arrow keys:
+Within HSTR you can type keywords to filter the list and select a line with the arrow keys:
 
-```bash
-- HISTORY - view:history (C-/) - match:keywords (C-e) - case:insensitive (C-t) - 1813/4853/4 ---
-        mkdir -p /tmp/biber
-        cd $_
-        echo "some command" > test.sh
-        chmod +x test.sh
-        git clone https://github.com/bibermann/biberconf.git ~/.biberconf
-        cd ~/.biberconf
-        ./install_or_update.sh
- HSTR $ |
-```
+![hstr-empty](img/hstr-empty.png)
+![hstr-head-gi](img/hstr-head-gi.png)
 
-```bash
-        mkdir -p /tmp/biber
-        git clone https://github.com/bibermann/biberconf.git ~/.biberconf
-        cd ~/.biberconf
- HSTR $ biber|
-```
-
-```bash
-        git clone https://github.com/bibermann/biberconf.git ~/.biberconf
- HSTR $ biber clone|
-```
-
+History logic:
 - When starting a new terminal window, a snapshot of all past commands (including all commands issued in still opened terminal windows) is made. This command history then is available in HSTR.
 - Each issued command is saved with the current date:
     - In the `~/.bash_history` without duplicates to better work with the `[Arrow-Up]` and `[Arrow-Down]` keys in the terminal prompt.
@@ -125,7 +103,9 @@ Shortcuts:
 ### Git aliases
 
 - `git df [ARGS...]`: Like `git diff` but as minimal as possible. Perfect for an overview of all changes.
+    ![git-df](img/git-df.png)
 - `git lg [ARGS...]`: Like `git log --graph` but with pretty and compact formatting.
+    ![git-lg](img/git-lg.png)
 - `git alg [ARGS...]`: Auto-Log: Like `git lg` but in reverse order and automatically updating after changes. That means if you run this command once in a terminal and pin it somewhere on the screen, you will always see the up-to-date git history there, starting with the youngest entry at the bottom of the terminal window.
 
 # Recommended tools
