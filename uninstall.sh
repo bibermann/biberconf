@@ -32,7 +32,9 @@ for i in "${!links[@]}"; do
     backup="${backups[$i]}"
     if [[ -L $link ]]; then
         rm "$link"
-        cp "user-backup/$backup" "$link"
+        if [[ -f $link ]]; then
+            cp "user-backup/$backup" "$link"
+        fi
     fi
 done
 

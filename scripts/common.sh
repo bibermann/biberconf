@@ -2,6 +2,7 @@ links=(
     ~/.bashrc
     ~/.gitconfig
     ~/.hstr_blacklist
+    ~/.hstr_favorites
     ~/.vimrc
     ~/.ssh/config
 )
@@ -9,6 +10,7 @@ targets=(
     bashrc
     gitconfig
     hstr_blacklist
+    hstr_favorites
     vimrc
     ssh_config
 )
@@ -16,6 +18,7 @@ backups=(
     bashrc
     gitconfig
     hstr_blacklist
+    hstr_favorites
     vimrc
     ssh_config
 )
