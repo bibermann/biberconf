@@ -62,9 +62,14 @@ self_update() {
         done
     fi
 
-    if [ $(git diff --name-only $current_commit..HEAD | grep "$0") ]; then
+    this_script_name="$(basename "$0")"
+    if [ $(git diff --name-only $current_commit..HEAD | grep "$this_script_name") ]; then
         echo_info "I updated myself, restarting..."
-        exec "$0" "$@"
+        if ! [[ -f $this_script_name ]]; then
+            exit_error "The name of the install script is no longer '$this_script_name'." \
+                       "Please manually call the new install script now."
+        fi
+        exec "./$this_script_name" "$@"
         exit 0
     fi
 
