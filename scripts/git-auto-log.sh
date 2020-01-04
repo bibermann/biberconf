@@ -5,6 +5,7 @@ set -euo pipefail
 # requires entr
 #   sudo apt install entr
 
+root=$(git rev-parse --show-toplevel)
 while true; do
-    find `git rev-parse --show-toplevel`/.git/{HEAD,refs/} | entr -cd ~/.biberconf/scripts/git-log-reversed-graph.sh "$@"
+    find "$root"/.git/{HEAD,refs/} | entr -cd ~/.biberconf/scripts/git-log-reversed-graph.sh "$@" || true
 done
