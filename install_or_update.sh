@@ -39,6 +39,13 @@ self_update() {
         fi
 
         git fetch origin
+        merge_base=$(git merge-base master origin/master)
+        if [[ $merge_base != $(git rev-parse master) ]]; then
+            if ! git rebase -p --onto $merge_base master; then
+                git rebase --abort || true
+                exit_error "Could not rebase. Please manually remove the commits from (but not including) $merge_base until (including) master, resolve the conflicts and try again."
+            fi
+        fi
         if ! git rebase origin/master; then
             git rebase --abort || true
             exit_error "Could not rebase. Please manually run 'git rebase origin/master', resolve the conflicts and try again."
