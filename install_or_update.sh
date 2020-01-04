@@ -109,21 +109,16 @@ cd ../..
 # biberconf
 #***********
 
-new_backups="false"
 for i in "${!links[@]}"; do
     link="${links[$i]}"
     backup="${backups[$i]}"
     if ! [[ -L $link ]] && [[ -f $link ]]; then
         cp "$link" "user-backup/$backup"
-        new_backups="true"
+        git add "user-backup/$backup"
+        git commit -m "Backup ${link/"$HOME/"/"~/"} to ./user-backup/$backup."
     fi
 done
-if [[ $new_backups == "true" ]]; then
-    git add user-backup
-    git commit -m 'Add backup from user config.'
-fi
 
-new_configs="false"
 for i in "${!links[@]}"; do
     link="${links[$i]}"
     target="${targets[$i]}"
@@ -171,15 +166,15 @@ for i in "${!links[@]}"; do
                 1>&2 echo "Implementation error: No installation routine for '$link'."
                 continue
             fi
+
+            git add "$target"
+            git commit -m "Integrate ${link/"$HOME/"/"~/"} into ./$target."
+
             rm "$link"
         fi
         ln -s "$(pwd)/$target" "$link"
-        new_configs="true"
     fi
 done
-if [[ $new_configs == "true" ]]; then
-    git commit -a -m 'Add config from user.'
-fi
 
 grep -q '^\. "\$HOME/\.biberconf/config/profile.sh"$' ~/.profile || echo -e '. "$HOME/.biberconf/config/profile.sh"\n' >> ~/.profile
 
