@@ -23,7 +23,6 @@ fi
 self_update() {
     current_commit=$(git rev-parse HEAD)
     current_branch=$(git rev-parse --abbrev-ref HEAD)
-    is_fresh_install="false"
     if git show-ref --verify --quiet "refs/heads/$default_user_branch"; then
         # at least the default user branch exists
         if [[ $current_branch == master ]]; then
@@ -41,9 +40,10 @@ self_update() {
 
         git fetch origin
         if ! git rebase origin/master; then
-            git rebase --abort
+            git rebase --abort || true
             exit_error "Could not rebase. Please manually run 'git rebase origin/master', resolve the conflicts and try again."
         fi
+        git branch -f master origin/master
     else
         if [[ $current_branch != master ]]; then
             exit_error "Cannot install: Expecting you are on the 'master' branch."
@@ -53,7 +53,6 @@ self_update() {
 
         git pull origin master
         git checkout -b "$default_user_branch"
-        is_fresh_install="true"
 
         for link in $links; do
             if [[ -L $link ]]; then
