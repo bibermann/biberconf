@@ -31,6 +31,14 @@ self_update() {
         fi
 
         # we are on a user-defined branch
+
+        # don't mess up .gitconfig when rebasing
+        if [[ -L ~/.gitconfig ]] && [[ $(readlink -f ~/.gitconfig) == ~/.biberconf/gitconfig ]]; then
+            rm -f ~/.gitconfig.biberconf-backup
+            mv ~/.gitconfig ~/.gitconfig.biberconf-backup
+            cp ~/.biberconf/gitconfig ~/.gitconfig
+        fi
+
         git fetch origin
         if ! git rebase origin/master; then
             git rebase --abort
@@ -42,6 +50,7 @@ self_update() {
         fi
 
         # fresh install
+
         git pull origin master
         git checkout -b "$default_user_branch"
         is_fresh_install="true"
@@ -57,6 +66,12 @@ self_update() {
         echo_info "I updated myself, restarting..."
         exec "$0" "$@"
         exit 0
+    fi
+
+    # restore git config
+    if [[ -f ~/.gitconfig.biberconf-backup ]]; then
+        rm -f ~/.gitconfig
+        mv ~/.gitconfig.biberconf-backup ~/.gitconfig
     fi
 }
 
