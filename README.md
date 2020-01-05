@@ -12,6 +12,18 @@ Biberconf includes:
 
 Biberconf sets all your custom configurations into version-control.
 
+## Overview
+
+Biberconf will sit under `~/.biberconf/` and all the basic system configurations will get symlinked into this repository.
+
+It serves two purposes:
+* First, it provides you with a sophisticated foundation to productively work with the command line.
+* Second, it versions your own customizations in a seperate `custom` branch (you are allowed to rename the branch or manage multiple branches if you like to). This allows you to push your personal configurations to a private repository and easily resue it in other environments.
+
+The `install_or_update.sh` script is designed to safely integrate your current configurations into your customized repository and automatically rebases your branch on remote updates.
+
+Before replacing any configuration files with symlinks, a backup gets comitted into your custom branch for each file. At any time you can uninstall or re-install Biberconf. When unsinstalling, the configuration files under `user-backup/` are restored.
+
 ## Requirements
 
 Tested on Ubuntu.
@@ -118,7 +130,7 @@ sudo apt install tilix  # Terminal emulator
 sudo apt install atom  # text editor
 sudo apt install speedcrunch  # calculator
 sudo apt install gnome-tweak-tool  # extended GNOME configuration
-sudo apt install dconf-editor  # sophisticated GNOME configuration
+sudo apt install dconf-editor  # advanced GNOME configuration
 
 # Command-line tools
 sudo apt install tree  # recursive directory listing

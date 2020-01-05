@@ -163,19 +163,8 @@ for i in "${!links[@]}"; do
                         sed -n $start',$p' "$link" >> "$target"
                     fi
                 fi
-            elif [[ $link == ~/.gitconfig ]]; then
-                cat "$link" >> "$target"
-            elif [[ $link == ~/.hstr_blacklist ]]; then
-                cp "$link" "$target"
-            elif [[ $link == ~/.hstr_favorites ]]; then
-                cp "$link" "$target"
-            elif [[ $link == ~/.vimrc ]]; then
-                cat "$link" >> "$target"
-            elif [[ $link == ~/.ssh/config ]]; then
-                cp "$link" "$target"
             else
-                1>&2 echo "Implementation error: No installation routine for '$link'."
-                continue
+                cat "$link" >> "$target"
             fi
 
             git add "$target"
