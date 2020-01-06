@@ -4,13 +4,13 @@
 
 #alias ll='ls -l'
 #alias l='ls -lA'
-alias ll='ls -alF'
-alias l='ls -CF'
-alias la='ls -A'
+alias ll='ls --color=auto -alF'
+alias l='ls --color=auto -CF'
+alias la='ls --color=auto -A'
 
-alias grep='grep -n'
-alias fgrep='fgrep -n'
-alias egrep='egrep -n'
+alias grep='grep --color=auto -n'
+alias fgrep='fgrep --color=auto -n'
+alias egrep='egrep --color=auto -n'
 
 alias git='LANGUAGE=en_US.UTF-8 git'
 alias prettyjson='python -m json.tool'
