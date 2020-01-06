@@ -57,9 +57,14 @@ run_hstr() {
     else
         shift
     fi
+    if [[ "$1" != "-f" ]]; then
+        local separator=--
+    else
+        local separator=
+    fi
     local offset=${READLINE_POINT}
     trap on_ctrl_c_for_hstr INT
-    { READLINE_LINE=$(</dev/tty HISTFILE="$hstr_session_file" HSTR_CONFIG="$HSTR_CONFIG" HSTR_IS_SUBSHELL=1 hstr "$@" -- ${READLINE_LINE:0:offset} 2>&1 1>&$hstrout); } {hstrout}>&1
+    { READLINE_LINE=$(</dev/tty HISTFILE="$hstr_session_file" HSTR_CONFIG="$HSTR_CONFIG" HSTR_IS_SUBSHELL=1 hstr "$@" $separator ${READLINE_LINE:0:offset} 2>&1 1>&$hstrout); } {hstrout}>&1
     trap - INT
     exec {hstrout}>&-
 }
