@@ -8,6 +8,10 @@ alias ll='ls -alF'
 alias l='ls -CF'
 alias la='ls -A'
 
+alias grep='grep -n'
+alias fgrep='fgrep -n'
+alias egrep='egrep -n'
+
 alias git='LANGUAGE=en_US.UTF-8 git'
 alias prettyjson='python -m json.tool'
 
