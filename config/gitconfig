@@ -6,6 +6,8 @@
 	tool = meld
 [merge]
 	tool = kdiff3
+[mergetool]
+	keepBackup = false
 [format]
 	pretty = oneline
 [log]
