@@ -43,6 +43,7 @@ on_save_last_command() {
     echo "$cmd" >> $hstr_session_file
 }
 on_bash_exit() {
+    on_save_last_command
     rm $hstr_session_file
 }
 trap on_bash_exit EXIT
