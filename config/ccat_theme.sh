@@ -1,1 +1,2 @@
-CCAT_THEME="ekvoli"
+CCAT_THEME="zmrok"
+CCAT_FILENAME_COLOR="1;31"

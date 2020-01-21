@@ -35,7 +35,8 @@ _ccat_test_all_themes() {
 
 _ccat_test_selected_themes() {
     local sample="${1-$HOME/.biberconf/samples/fibonacci.py}"
-    __ccat_test_themes $sample andes bluegreen dante darkslategray denim edit-godot edit-vim-dark ekvoli leo lucretia moria nightshimmer orion pablo zmrok
+    # __ccat_test_themes $sample andes bluegreen dante darkslategray denim edit-godot edit-vim-dark ekvoli leo lucretia moria nightshimmer orion pablo zmrok
+    __ccat_test_themes $sample andes bluegreen denim ekvoli leo lucretia moria orion pablo zmrok
 }
 
 ccat() {
@@ -43,7 +44,7 @@ ccat() {
     #   sudo apt install highlight
     for f in "$@"; do
         # print filename (if we have to print multiple files)
-        if [[ $# -ne 1 ]]; then echo -e "\033[1;37m$f\033[0m"; fi
+        if [[ $# -ne 1 ]]; then echo -e "\033[${CCAT_FILENAME_COLOR}m$f\033[0m"; fi
         # print file contents with syntax highlighting
         highlight -O xterm256 --force -s "$CCAT_THEME" -- "$f"
     done

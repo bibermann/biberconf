@@ -13,10 +13,11 @@
 [log]
 	abbrevCommit = true
 [alias]
-    lg = log --graph --abbrev-commit --decorate \
+    s = status
+    d = !cd -- "./${GIT_PREFIX}" && ~/.biberconf/scripts/git-diff-minimal.sh
+    l = log --graph --abbrev-commit --decorate \
         --format=format:'%C(yellow)%h%C(reset) %C(white)%s%C(reset) %C(dim white)%an%C(reset) %C(yellow)%ar%C(reset)%C(auto)%d%C(reset)' \
         --color=always
     # requires entr
     #   sudo apt install entr
-    alg = !~/.biberconf/scripts/git-auto-log.sh "$@"
-    df = !~/.biberconf/scripts/git-diff-minimal.sh "$@"
+    a = !cd -- "./${GIT_PREFIX}" && ~/.biberconf/scripts/git-auto-log.sh

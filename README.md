@@ -115,11 +115,12 @@ Shortcuts:
 
 ### Git aliases
 
-- `git df [ARGS...]`: Like `git diff` but as minimal as possible. Perfect for an overview of all changes.
-    ![git-df](img/git-df.png)
-- `git lg [ARGS...]`: Like `git log --graph` but with pretty and compact formatting.
-    ![git-lg](img/git-lg.png)
-- `git alg [ARGS...]`: Auto-Log: Like `git lg` but in reverse order and automatically updating after changes. That means if you run this command once in a terminal and pin it somewhere on the screen, you will always see the up-to-date git history there, starting with the youngest entry at the bottom of the terminal window.
+- `git s [ARGS...]`: Alias for `git status`.
+- `git d [ARGS...]`: Like `git diff` but as minimal as possible. Perfect for an overview of all changes.
+    ![git-d](img/git-df.png)
+- `git l [ARGS...]`: Like `git log --graph` but with pretty and compact formatting.
+    ![git-l](img/git-lg.png)
+- `git a [ARGS...]`: Auto-Log: Like `git l` but in reverse order and automatically updating after changes. That means if you run this command once in a terminal and pin it somewhere on the screen, you will always see the up-to-date git history there, starting with the youngest entry at the bottom of the terminal window.
 
 # Recommended tools
 
