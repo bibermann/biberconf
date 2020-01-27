@@ -106,6 +106,7 @@ Shortcuts:
 - `stderred COMMAND`: Executes the command, highlighting all output to stderr with red.
 - `pss ARGS...`: Runs `pss` ignoring directories listed in `pss_ignore.sh`.
 - `prettyjson`: Shortcut for `python -m json.tool`
+- `open`: Shortcut for `xdg-open`
 - More aliases:
     - `git` (language set to english)
     - `alert` (see `config/bash-5-aliases.sh`)

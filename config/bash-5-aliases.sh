@@ -14,6 +14,7 @@ alias egrep='egrep --color=auto -n'
 
 alias git='LANGUAGE=en_US.UTF-8 git'
 alias prettyjson='python -m json.tool'
+alias open=xdg-open
 
 # requires stderred
 #   https://github.com/sickill/stderred
