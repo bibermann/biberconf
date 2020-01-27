@@ -2,7 +2,9 @@
 
 set -euo pipefail
 
-. scripts/common.sh
+COMMON_SCRIPT=scripts/common.sh
+
+. $COMMON_SCRIPT
 
 if [[ $(git rev-parse --show-toplevel) != $HOME/.biberconf ]]; then
     exit_error "Cannot install: This repo must be cloned to '$HOME/.biberconf'."
@@ -69,7 +71,7 @@ self_update() {
     fi
 
     this_script_name="$(basename "$0")"
-    if [ $(git diff --name-only $current_commit..HEAD | grep "$this_script_name") ]; then
+    if [ $(git diff --name-only $current_commit..HEAD | grep -E "$this_script_name|$COMMON_SCRIPT") ]; then
         echo_info "I updated myself, restarting..."
         if ! [[ -f $this_script_name ]]; then
             exit_error "The name of the install script is no longer '$this_script_name'." \
