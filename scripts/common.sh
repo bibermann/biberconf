@@ -28,7 +28,7 @@ default_user_branch="custom"
 COLOR_SUCCESS='\033[1;32m'
 COLOR_ERROR='\033[1;31m'
 COLOR_PROMPT='\033[1;36m'
-COLOR_INFO='\033[0;36m'
+COLOR_INFO='\033[0;37m'
 COLOR_TITLE='\033[0;33m'
 COLOR_NO='\033[0m'
 BIBERCONF_TITLE="${COLOR_TITLE}=========\nBiberconf\n=========${COLOR_NO}"
