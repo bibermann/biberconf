@@ -106,6 +106,13 @@ self_update
 git submodule sync
 git submodule update --init
 
+#*******************
+# Do we have a GUI?
+#*******************
+
+$IS_GUI="false"
+if [[ ! -z $DISPLAY ]]; then $IS_GUI="true"; fi
+
 #******
 # HSTR
 #******
@@ -150,19 +157,40 @@ for i in "${!links[@]}"; do
     target="${targets[$i]}"
     backup="${backups[$i]}"
     if ! [[ -L $link ]]; then
+        if [[ $target == gitconfig ]] && [[ $IS_GUI == "false" ]]; then
+            sed -i 's#/desktop.gitconfig$#/server.gitconfig#' "$target"
+            git add "$target"
+            git commit -m "Switch to server configurations due to missing GUI."
+        fi
         if [[ -f $link ]]; then
             if [[ $link == ~/.bashrc ]] && diff "/etc/skel/.bashrc" "$link" >/dev/null 2>&1; then
-                read_reply "Note that I have backed up your '~/.bashrc' and will provide you with all the settings you would generally need." \
-                           "Nevertheless there may be some stuff you may want to keep. We will now search for this stuff to keep." \
-                           "Note that you can always review your original file content in '$(cd user-backup; pwd)/$backup' and add stuff to '$link' (or '$(pwd)/$target', resp.) later." \
-                           "I will now open your '~/.bashrc' in comparison with the original file of your distribution. The modified version will be on the right side." \
-                           "There you will search for the first (and optionally last) line numbers of the lines you want to keep." \
-                           "Press [Enter] to continue."
+                if [[ $IS_GUI == "true" ]]; then
+                    # Note: We show the modified version on the right side because this is more intuitive for people whe read from left to right.
+                    read_reply "Note that I have backed up your '~/.bashrc' and will provide you with all the settings you would generally need." \
+                               "Nevertheless there may be some stuff you may want to keep. We will now search for this stuff to keep." \
+                               "Note that you can always review your original file content in '$(cd user-backup; pwd)/$backup' and add stuff to '$link' (or '$(pwd)/$target', resp.) later." \
+                               "I will now open your '~/.bashrc' in comparison with the original file of your distribution with the program meld. The modified version will be on the right side." \
+                               "There you will search for the first (and optionally last) line numbers of the lines you want to keep." \
+                               "Close meld when you have memorized the line numbers." \
+                               "Press [Enter] to continue."
 
-                old_meld_conf=$(dconf read /org/gnome/meld/show-line-numbers)
-                dconf write /org/gnome/meld/show-line-numbers "true"
-                meld "/etc/skel/.bashrc" "$link"
-                dconf write /org/gnome/meld/show-line-numbers "$old_meld_conf"
+                    old_meld_conf=$(dconf read /org/gnome/meld/show-line-numbers)
+                    dconf write /org/gnome/meld/show-line-numbers "true"
+                    meld "/etc/skel/.bashrc" "$link"
+                    dconf write /org/gnome/meld/show-line-numbers "$old_meld_conf"
+                else
+                    # Note: We show the modified version on the left side because `vimdiff` only shows line numbers on the left side.
+                    read_reply "Note that I have backed up your '~/.bashrc' and will provide you with all the settings you would generally need." \
+                               "Nevertheless there may be some stuff you may want to keep. We will now search for this stuff to keep." \
+                               "Note that you can always review your original file content in '$(cd user-backup; pwd)/$backup' and add stuff to '$link' (or '$(pwd)/$target', resp.) later." \
+                               "I will now open your '~/.bashrc' in comparison with the original file of your distribution with the programm vim. The modified version will be on the left side." \
+                               "There you will search for the first (and optionally last) line numbers of the lines you want to keep." \
+                               "Type ':qa' (without the quotes) to exit vim when you have memorized the line numbers." \
+                               "Press [Enter] to continue."
+
+                    vimdiff -c 'set number' -c 'syntax on' -c 'set background=dark' "$link" "/etc/skel/.bashrc"
+                    meld "/etc/skel/.bashrc" "$link"
+                fi
 
                 read_reply "Do you want to keep some lines now? [y|n]"
                 if [[ $REPLY =~ ^[Yy]$ ]]; then

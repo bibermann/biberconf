@@ -26,11 +26,21 @@ Before replacing any configuration files with symlinks, a backup gets comitted i
 
 ## Requirements
 
-Tested on Ubuntu.
+For desktop environments (tested on Ubuntu):
 
 ```bash
 sudo apt install vim meld kdiff3
 sudo apt install dconf-cli  # for installation script
+sudo apt install entr  # for `git alg`
+sudo apt install highlight  # for `ccat`
+sudo apt install build-essential cmake  # for `stderred`
+sudo apt install automake gcc make libncursesw5-dev libreadline-dev  # for `hstr`
+```
+
+For server environments (tested on Debian):
+
+```bash
+sudo apt install vim
 sudo apt install entr  # for `git alg`
 sudo apt install highlight  # for `ccat`
 sudo apt install build-essential cmake  # for `stderred`
