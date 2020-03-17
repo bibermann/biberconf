@@ -22,7 +22,7 @@ It serves two purposes:
 
 The `install_or_update.sh` script is designed to safely integrate your current configurations into your customized repository and automatically rebases your branch on remote updates.
 
-Before replacing any configuration files with symlinks, a backup gets comitted into your custom branch for each file. At any time you can uninstall or re-install Biberconf. When unsinstalling, the configuration files under `user-backup/` are restored.
+Before replacing any configuration files with symlinks, a backup gets comitted into your custom branch for each file. At any time you can uninstall or re-install Biberconf. When uninstalling, your previous configuration files are restored.
 
 ## Requirements
 
@@ -30,6 +30,7 @@ Tested on Ubuntu.
 
 ```bash
 sudo apt install vim meld kdiff3
+sudo apt install dconf-cli  # for installation script
 sudo apt install entr  # for `git alg`
 sudo apt install highlight  # for `ccat`
 sudo apt install build-essential cmake  # for `stderred`
@@ -48,12 +49,16 @@ cd ~/.biberconf
 
 The script fetches the latest changes, installs them and rebases your `custom` branch.
 
+Do not fear to run this command, it is able to handle common problems or conflicts - even a rewritten git history of the remote branch.
+
 ```bash
 cd ~/.biberconf
 ./install_or_update.sh
 ```
 
 ## Deinstallation
+
+Uninstalls all integrations and restores the configuration files under `user-backup/`.
 
 ```bash
 cd ~/.biberconf
@@ -69,12 +74,12 @@ cd ~/.biberconf
 Legend:
 
 ```bash
-#    ,------------------------------------ signal name or exit code from last command
-#   |                  ,------------------ current virtual environment
-#   |                 |       ,----------- current Git branch
-#   |                 |      |       ,---- remote Git status
-#   |                 |      |      |   ,- local Git status
-#   |                 |      |      |  |
+#      ,------------------------------------ signal name or exit code from last command
+#     |                ,------------------ current virtual environment
+#     |               |       ,----------- current Git branch
+#     |               |      |       ,---- remote Git status
+#     |               |      |      |   ,- local Git status
+#     |               |      |      |  |
     INT ~/gh/testrepo myvenv master ↑2 *3+2
 20:08 $ |
 ```
@@ -95,21 +100,21 @@ History logic:
 Shortcuts:
 - `[Ctrl] + [s]`: Start HSTR in "history view" mode.
 - `[Ctrl] + [r]`: Start HSTR in "ranking view" mode.
-- `[Ctrl] + [r]`: Start HSTR in "favorites view" mode.
+- `[Ctrl] + [f]`: Start HSTR in "favorites view" mode.
 
 ### Available commands
 
 - `ccat FILE [FILES...]`: Prints the file(s) with syntax highlighting.
     - Change theme in `ccat_theme.sh`.
-        - Present favorite themes: `_ccat_test_selected_themes [TEST_FILE]`
-        - Present all themes: `_ccat_test_all_themes [TEST_FILE]`
+        - Show favorite themes: `_ccat_test_selected_themes [TEST_FILE]`
+        - Show all themes: `_ccat_test_all_themes [TEST_FILE]`
 - `stderred COMMAND`: Executes the command, highlighting all output to stderr with red.
 - `pss ARGS...`: Runs `pss` ignoring directories listed in `pss_ignore.sh`.
 - `prettyjson`: Shortcut for `python -m json.tool`
 - `open`: Shortcut for `xdg-open`
 - More aliases:
     - `git` (language set to english)
-    - `alert` (see `config/bash-5-aliases.sh`)
+    - `alert` (use like `sleep 10; alert` to notify you when the previous command (here `sleep 10`) has finished)
     - `l`
     - `ll`
     - `la`
@@ -118,9 +123,9 @@ Shortcuts:
 
 - `git s [ARGS...]`: Alias for `git status`.
 - `git d [ARGS...]`: Like `git diff` but as minimal as possible. Perfect for an overview of all changes.
-    ![git-d](img/git-df.png)
+    ![git-d](img/git-d.png)
 - `git l [ARGS...]`: Like `git log --graph` but with pretty and compact formatting.
-    ![git-l](img/git-lg.png)
+    ![git-l](img/git-l.png)
 - `git a [ARGS...]`: Auto-Log: Like `git l` but in reverse order and automatically updating after changes. That means if you run this command once in a terminal and pin it somewhere on the screen, you will always see the up-to-date git history there, starting with the youngest entry at the bottom of the terminal window.
 
 # Recommended tools

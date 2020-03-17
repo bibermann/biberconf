@@ -68,6 +68,19 @@ self_update() {
                 exit_error "Cannot install: '$link' was not expected to be a symlink."
             fi
         done
+
+        if command -v hstr >/dev/null 2>&1 || command -v hh >/dev/null 2>&1; then
+            if command -v hh >/dev/null 2>&1 && ! hh --version 2>/dev/null | grep \\bhstr\\b >/dev/null 2>&1; then
+                exit_error "Cannot install: $(command -v hh) was expected to not exist or to be an installation of HSTR.\nPlease open an issue here https://github.com/bibermann/biberconf/issues or contact fabianvss@gmail.com"
+            fi
+            if command -v hstr >/dev/null 2>&1 && command -v hh >/dev/null 2>&1; then
+                exit_error "Cannot install: Please uninstall the currently installed version of HSTR before and remove $(command -v hh)."
+            elif command -v hstr >/dev/null 2>&1; then
+                exit_error "Cannot install: Please uninstall the currently installed version of HSTR before."
+            elif command -v hh >/dev/null 2>&1; then
+                exit_error "Cannot install: Please remove $(command -v hh) (artifact of HSTR)."
+            fi
+        fi
     fi
 
     this_script_name="$(basename "$0")"
@@ -138,7 +151,7 @@ for i in "${!links[@]}"; do
     backup="${backups[$i]}"
     if ! [[ -L $link ]]; then
         if [[ -f $link ]]; then
-            if [[ $link == ~/.bashrc ]]; then
+            if [[ $link == ~/.bashrc ]] && diff "/etc/skel/.bashrc" "$link" >/dev/null 2>&1; then
                 read_reply "Note that I have backed up your '~/.bashrc' and will provide you with all the settings you would generally need." \
                            "Nevertheless there may be some stuff you may want to keep. We will now search for this stuff to keep." \
                            "Note that you can always review your original file content in '$(cd user-backup; pwd)/$backup' and add stuff to '$link' (or '$(pwd)/$target', resp.) later." \
@@ -169,8 +182,10 @@ for i in "${!links[@]}"; do
                 cat "$link" >> "$target"
             fi
 
-            git add "$target"
-            git commit -m "Integrate ${link/"$HOME/"/"~/"} into ./$target."
+            if ! git diff --quiet "$target"; then
+                git add "$target"
+                git commit -m "Integrate ${link/"$HOME/"/"~/"} into ./$target."
+            fi
 
             rm "$link"
         fi
