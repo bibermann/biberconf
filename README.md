@@ -2,6 +2,8 @@
 
 Tools, tweaks and configs for a Bash command line environment.
 
+Currently working on Debian based systems including Ubuntu (server and desktop environments).
+
 Biberconf includes:
 - [bash-git-prompt: An informative and fancy bash prompt for Git users](https://github.com/magicmonty/bash-git-prompt) (slightly modified version)
 - [HSTR: Easily view, navigate and search your command history](https://github.com/dvorka/hstr) (slightly modified version)
@@ -26,25 +28,12 @@ Before replacing any configuration files with symlinks, a backup gets comitted i
 
 ## Requirements
 
-For desktop environments (tested on Ubuntu):
+You have to install and configure Git (please adjust the name and the email):
 
 ```bash
-sudo apt install vim meld kdiff3
-sudo apt install dconf-cli  # for installation script
-sudo apt install entr  # for `git alg`
-sudo apt install highlight  # for `ccat`
-sudo apt install build-essential cmake  # for `stderred`
-sudo apt install automake gcc make libncursesw5-dev libreadline-dev  # for `hstr`
-```
-
-For server environments (tested on Debian):
-
-```bash
-sudo apt install vim
-sudo apt install entr  # for `git alg`
-sudo apt install highlight  # for `ccat`
-sudo apt install build-essential cmake  # for `stderred`
-sudo apt install automake gcc make libncursesw5-dev libreadline-dev  # for `hstr`
+sudo apt update && sudo apt install git
+git config --global user.name "John Doe"
+git config --global user.email "johndoe@example.com"
 ```
 
 ## Installation

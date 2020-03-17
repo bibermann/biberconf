@@ -2,14 +2,70 @@
 
 set -euo pipefail
 
+#**************
+# common stuff
+#**************
+
 COMMON_SCRIPT=scripts/common.sh
 
 . $COMMON_SCRIPT
 
-if [[ $(git rev-parse --show-toplevel) != $HOME/.biberconf ]]; then
+#***************
+# preconditions
+#***************
+
+if [[ $(git rev-parse --show-toplevel) != $(realpath $HOME/.biberconf) ]]; then
     exit_error "Cannot install: This repo must be cloned to '$HOME/.biberconf'."
 fi
 cd ~/.biberconf
+
+#*****************************
+# check whether we have a GUI
+#*****************************
+
+if [[ ! -z ${DISPLAY:-} ]]; then
+    IS_GUI="true"
+else
+    IS_GUI="false"
+fi
+
+#**************
+# requirements
+#**************
+
+if [[ -z $(git config user.name) ]] || [[ -z $(git config user.email) ]]; then
+    exit_error "Cannot install: You need to set your user name and email address in Git, like so:" \
+               'git config --global user.name "John Doe"' \
+               'git config --global user.email johndoe@example.com'
+fi
+
+required_packages=(
+    vim
+    entr  # for `git alg`
+    highlight  # for `ccat`
+    build-essential cmake  # for `stderred`
+    automake gcc make pkg-config libncursesw5-dev libreadline-dev  # for `hstr`
+)
+if [[ $IS_GUI == "true" ]]; then
+    required_packages+=(
+        meld kdiff3
+        dconf-cli  # for installation script
+    )
+fi
+
+not_installed_packages=()
+for package in "${required_packages[@]}"; do
+    if ! dpkg-query -W -f='${Status}' $package 2>/dev/null | grep "^install ok installed$" >/dev/null 2>&1; then
+        not_installed_packages+=($package)
+    fi
+done
+if [[ ${#not_installed_packages[@]} -gt 0 ]]; then
+    echo_info "Installing required packages (${not_installed_packages[*]}), sudo required..."
+    set -x
+    sudo apt update
+    sudo apt install -y ${not_installed_packages[@]}
+    set +x
+fi
 
 #*************
 # self-update
@@ -106,13 +162,6 @@ self_update
 git submodule sync
 git submodule update --init
 
-#*******************
-# Do we have a GUI?
-#*******************
-
-$IS_GUI="false"
-if [[ ! -z $DISPLAY ]]; then $IS_GUI="true"; fi
-
 #******
 # HSTR
 #******
@@ -146,8 +195,8 @@ for i in "${!links[@]}"; do
     link="${links[$i]}"
     backup="${backups[$i]}"
     if ! [[ -L $link ]] && [[ -f $link ]]; then
-        cp "$link" "user-backup/$backup"
-        git add "user-backup/$backup"
+        cp $link user-backup/$backup
+        git add user-backup/$backup
         git commit -m "Backup ${link/"$HOME/"/"~/"} to ./user-backup/$backup."
     fi
 done
@@ -158,12 +207,12 @@ for i in "${!links[@]}"; do
     backup="${backups[$i]}"
     if ! [[ -L $link ]]; then
         if [[ $target == gitconfig ]] && [[ $IS_GUI == "false" ]]; then
-            sed -i 's#/desktop.gitconfig$#/server.gitconfig#' "$target"
-            git add "$target"
+            sed -i 's#/desktop.gitconfig$#/server.gitconfig#' $target
+            git add $target
             git commit -m "Switch to server configurations due to missing GUI."
         fi
         if [[ -f $link ]]; then
-            if [[ $link == ~/.bashrc ]] && diff "/etc/skel/.bashrc" "$link" >/dev/null 2>&1; then
+            if [[ $link == ~/.bashrc ]] && ! diff /etc/skel/.bashrc $link >/dev/null 2>&1; then
                 if [[ $IS_GUI == "true" ]]; then
                     # Note: We show the modified version on the right side because this is more intuitive for people whe read from left to right.
                     read_reply "Note that I have backed up your '~/.bashrc' and will provide you with all the settings you would generally need." \
@@ -176,7 +225,7 @@ for i in "${!links[@]}"; do
 
                     old_meld_conf=$(dconf read /org/gnome/meld/show-line-numbers)
                     dconf write /org/gnome/meld/show-line-numbers "true"
-                    meld "/etc/skel/.bashrc" "$link"
+                    meld /etc/skel/.bashrc $link
                     dconf write /org/gnome/meld/show-line-numbers "$old_meld_conf"
                 else
                     # Note: We show the modified version on the left side because `vimdiff` only shows line numbers on the left side.
@@ -188,8 +237,7 @@ for i in "${!links[@]}"; do
                                "Type ':qa' (without the quotes) to exit vim when you have memorized the line numbers." \
                                "Press [Enter] to continue."
 
-                    vimdiff -c 'set number' -c 'syntax on' -c 'set background=dark' "$link" "/etc/skel/.bashrc"
-                    meld "/etc/skel/.bashrc" "$link"
+                    vimdiff -c 'set number' -c 'syntax on' -c 'set background=dark' -R $link /etc/skel/.bashrc
                 fi
 
                 read_reply "Do you want to keep some lines now? [y|n]"
@@ -199,25 +247,25 @@ for i in "${!links[@]}"; do
                     read_reply "Enter last line to keep (keep empty to select until the end of the file):"
                     end="$REPLY"
 
-                    echo >> "$target"
+                    echo >> $target
                     if [[ ! -z "$end" ]]; then
-                        sed -n -e $start',$p' -e $end'q' "$link" >> "$target"
+                        sed -n -e $start',$p' -e $end'q' $link >> $target
                     else
-                        sed -n $start',$p' "$link" >> "$target"
+                        sed -n $start',$p' $link >> $target
                     fi
                 fi
             else
-                cat "$link" >> "$target"
+                cat $link >> $target
             fi
 
-            if ! git diff --quiet "$target"; then
-                git add "$target"
+            if ! git diff --quiet $target; then
+                git add $target
                 git commit -m "Integrate ${link/"$HOME/"/"~/"} into ./$target."
             fi
 
-            rm "$link"
+            rm $link
         fi
-        ln -s "$(pwd)/$target" "$link"
+        ln -s "$(pwd)/$target" $link
     fi
 done
 

@@ -2,9 +2,17 @@
 
 set -euo pipefail
 
+#**************
+# common stuff
+#**************
+
 . scripts/common.sh
 
-if [[ $(git rev-parse --show-toplevel) != $HOME/.biberconf ]]; then
+#***************
+# preconditions
+#***************
+
+if [[ $(git rev-parse --show-toplevel) != $(realpath $HOME/.biberconf) ]]; then
     exit_error "Cannot uninstall: This repo was moved away from '$HOME/.biberconf'."
 fi
 cd ~/.biberconf
@@ -31,9 +39,9 @@ for i in "${!links[@]}"; do
     link="${links[$i]}"
     backup="${backups[$i]}"
     if [[ -L $link ]]; then
-        rm "$link"
+        rm $link
         if [[ -f $link ]]; then
-            cp "user-backup/$backup" "$link"
+            cp user-backup/$backup $link
         fi
     fi
 done
