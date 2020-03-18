@@ -1,17 +1,17 @@
 [core]
-	editor = vim
+    editor = vim
 [color]
-	ui = true
+    ui = true
 [diff]
-	tool = meld
+    tool = meld
 [merge]
-	tool = kdiff3
+    tool = kdiff3
 [mergetool]
-	keepBackup = false
+    keepBackup = false
 [format]
-	pretty = oneline
+    pretty = oneline
 [log]
-	abbrevCommit = true
+    abbrevCommit = true
 [alias]
     s = status
     d = !cd -- "./${GIT_PREFIX}" && ~/.biberconf/scripts/git-diff-minimal.sh
