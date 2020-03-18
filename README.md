@@ -103,6 +103,8 @@ Shortcuts:
 
 ### Available commands
 
+- `upgrade`: Upgrades your system, optionally shutting down afterwards, see `upgrade -h` for options.
+- `open`: Shortcut for `xdg-open`
 - `ccat FILE [FILES...]`: Prints the file(s) with syntax highlighting.
     - Change theme in `ccat_theme.sh`.
         - Show favorite themes: `_ccat_test_selected_themes [TEST_FILE]`
@@ -110,7 +112,6 @@ Shortcuts:
 - `stderred COMMAND`: Executes the command, highlighting all output to stderr with red.
 - `pss ARGS...`: Runs `pss` ignoring directories listed in `pss_ignore.sh`.
 - `prettyjson`: Shortcut for `python -m json.tool`
-- `open`: Shortcut for `xdg-open`
 - More aliases:
     - `git` (language set to english)
     - `alert` (use like `sleep 10; alert` to notify you when the previous command (here `sleep 10`) has finished)
