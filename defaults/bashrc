@@ -17,4 +17,4 @@ esac
 # should be on the output of commands, not on the prompt
 force_color_prompt=yes
 
-. ~/.biberconf/config/bash-0-general.sh
+. ~/.biberconf/defaults/bash-0-general.sh

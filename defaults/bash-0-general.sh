@@ -26,11 +26,11 @@ if [ -z "$color_prompt" ] && [ -n "$force_color_prompt" ]; then
 fi
 unset force_color_prompt
 
-. ~/.biberconf/config/bash-1-coloring.sh
-. ~/.biberconf/config/bash-2-completion.sh
-. ~/.biberconf/config/bash-3-history.sh
-. ~/.biberconf/config/bash-4-prompt.sh
-. ~/.biberconf/config/bash-5-aliases.sh
+. ~/.biberconf/defaults/bash-1-coloring.sh
+. ~/.biberconf/defaults/bash-2-completion.sh
+. ~/.biberconf/defaults/bash-3-history.sh
+. ~/.biberconf/defaults/bash-4-prompt.sh
+. ~/.biberconf/defaults/bash-5-aliases.sh
 
 unset color_prompt
 

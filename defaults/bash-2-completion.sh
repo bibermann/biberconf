@@ -13,7 +13,7 @@ if ! shopt -oq posix; then
   fi
 fi
 
-# auto completion for git aliases (see ~/.biberconf/config/gitconfig)
+# auto completion for git aliases (see ~/.biberconf/defaults/gitconfig)
 _git_lg()
 {
   __gitcomp_nl "$(__git_refs)"

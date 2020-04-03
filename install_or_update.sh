@@ -269,7 +269,8 @@ for i in "${!links[@]}"; do
     fi
 done
 
-grep -q '^\. "\$HOME/\.biberconf/config/profile.sh"$' ~/.profile || echo -e '. "$HOME/.biberconf/config/profile.sh"\n' >> ~/.profile
+grep -q '^\. "\$HOME/\.biberconf/config/profile.sh"$' ~/.profile && sed -i 's#^\. "\$HOME/\.biberconf/config/profile.sh"$#. "$HOME/.biberconf/defaults/profile.sh"#g' ~/.profile  # update
+grep -q '^\. "\$HOME/\.biberconf/defaults/profile.sh"$' ~/.profile || echo -e '. "$HOME/.biberconf/defaults/profile.sh"\n' >> ~/.profile
 
 if ! [[ -d ~/.hstr_histories ]]; then
     mkdir ~/.hstr_histories

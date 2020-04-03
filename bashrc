@@ -1,1 +1,1 @@
-. ~/.biberconf/config/bashrc
+. ~/.biberconf/defaults/bashrc

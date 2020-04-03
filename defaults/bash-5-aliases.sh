@@ -64,10 +64,10 @@ pss() {
 # personal stuff
 #****************
 
-. ~/.biberconf/config/pss_ignore.sh
+. ~/.biberconf/defaults/pss_ignore.sh
 . ~/.biberconf/pss_ignore.sh
 
-. ~/.biberconf/config/ccat_theme.sh
+. ~/.biberconf/defaults/ccat_theme.sh
 . ~/.biberconf/ccat_theme.sh
 
 . ~/.biberconf/bash_aliases.sh
