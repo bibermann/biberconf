@@ -101,12 +101,14 @@ self_update() {
         if [[ $merge_base != $(git rev-parse master) ]]; then
             if ! git rebase -p --onto $merge_base master; then
                 git rebase --abort || true
-                exit_error "Could not rebase. Please manually remove the commits from (but not including) $merge_base until (including) master, resolve the conflicts and try again."
+                exit_error "Could not rebase." \
+                           "Please manually remove the commits from (but not including) $merge_base until (including) master, resolve the conflicts and try again."
             fi
         fi
         if ! git rebase origin/master; then
             git rebase --abort || true
-            exit_error "Could not rebase. Please manually run 'git rebase origin/master', resolve the conflicts and try again."
+            exit_error "Could not rebase." \
+                       "Please manually run 'git rebase origin/master', resolve the conflicts (with 'git mergetool --tool=kdiff3' or 'git mergetool --tool=vimdiff') and try again."
         fi
         git branch -f master origin/master
     else
@@ -127,7 +129,8 @@ self_update() {
 
         if command -v hstr >/dev/null 2>&1 || command -v hh >/dev/null 2>&1; then
             if command -v hh >/dev/null 2>&1 && ! hh --version 2>/dev/null | grep \\bhstr\\b >/dev/null 2>&1; then
-                exit_error "Cannot install: $(command -v hh) was expected to not exist or to be an installation of HSTR.\nPlease open an issue here https://github.com/bibermann/biberconf/issues or contact fabianvss@gmail.com"
+                exit_error "Cannot install: $(command -v hh) was expected to not exist or to be an installation of HSTR." \
+                           "Please open an issue here https://github.com/bibermann/biberconf/issues or contact fabianvss@gmail.com"
             fi
             if command -v hstr >/dev/null 2>&1 && command -v hh >/dev/null 2>&1; then
                 exit_error "Cannot install: Please uninstall the currently installed version of HSTR before and remove $(command -v hh)."
