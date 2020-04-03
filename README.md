@@ -73,7 +73,7 @@ cd ~/.biberconf
 Legend:
 
 ```bash
-#      ,------------------------------------ signal name or exit code from last command
+#      ,---------------------------------- signal name or exit code from last command
 #     |                ,------------------ current virtual environment
 #     |               |       ,----------- current Git branch
 #     |               |      |       ,---- remote Git status
