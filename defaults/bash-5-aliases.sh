@@ -13,7 +13,6 @@ alias fgrep='fgrep --color=auto -n'
 alias egrep='egrep --color=auto -n'
 
 alias git='LANGUAGE=en_US.UTF-8 git'
-alias prettyjson='python -m json.tool'
 alias open=xdg-open
 alias upgrade=~/.biberconf/scripts/upgrade.sh
 

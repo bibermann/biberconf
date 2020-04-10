@@ -111,7 +111,6 @@ Shortcuts:
         - Show all themes: `_ccat_test_all_themes [TEST_FILE]`
 - `stderred COMMAND`: Executes the command, highlighting all output to stderr with red.
 - `pss ARGS...`: Runs `pss` ignoring directories listed in `pss_ignore.sh`.
-- `prettyjson`: Shortcut for `python -m json.tool`
 - More aliases:
     - `git` (language set to english)
     - `alert` (use like `sleep 10; alert` to notify you when the previous command (here `sleep 10`) has finished)
