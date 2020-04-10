@@ -22,7 +22,7 @@ It serves two purposes:
 * First, it provides you with a sophisticated foundation to productively work with the command line.
 * Second, it versions your own customizations in a seperate `custom` branch (you are allowed to rename the branch or manage multiple branches if you like to). This allows you to push your personal configurations to a private repository and easily resue it in other environments.
 
-The `install_or_update.sh` script is designed to safely integrate your current configurations into your customized repository and automatically rebases your branch on remote updates.
+The `install-or-update.sh` script is designed to safely integrate your current configurations into your customized repository and automatically rebases your branch on remote updates.
 
 Before replacing any configuration files with symlinks, a backup gets comitted into your custom branch for each file. At any time you can uninstall or re-install Biberconf. When uninstalling, your previous configuration files are restored.
 
@@ -41,7 +41,7 @@ git config --global user.email "johndoe@example.com"
 ```bash
 git clone https://github.com/bibermann/biberconf.git ~/.biberconf
 cd ~/.biberconf
-./install_or_update.sh
+./install-or-update.sh
 ```
 
 ## Update
@@ -52,7 +52,7 @@ Do not fear to run this command, it is able to handle common problems or conflic
 
 ```bash
 cd ~/.biberconf
-./install_or_update.sh
+./install-or-update.sh
 ```
 
 ## Deinstallation
