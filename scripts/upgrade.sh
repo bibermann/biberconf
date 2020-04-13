@@ -2,20 +2,17 @@
 
 set -euo pipefail
 
-nocache=false
-list=false
+yes=false
 reboot=false
 shutdown=false
+nocache=false
 
-usage() { echo "Usage: $0 [-h] [-c] [-l] [-r|-s]"; }
+usage() { echo "Usage: $0 [-h] [-y] [-r|-s] [-c]"; }
 
-while getopts "hclrs" opt; do
+while getopts "hyrsc" opt; do
   case $opt in
-    c)
-      nocache=true
-      ;;
-    l)
-      list=true
+    y)
+      yes=true
       ;;
     r)
       reboot=true
@@ -23,14 +20,17 @@ while getopts "hclrs" opt; do
     s)
       shutdown=true
       ;;
+    c)
+      nocache=true
+      ;;
     h)
-      echo "Upgrade your system."
+      echo "List upgradable packages and upgrade your system."
       usage
       echo "Arguments:"
-      echo "  -c  Do NOT update apt cache."
-      echo "  -l  List upgradable packages."
+      echo "  -y  Upgrade without confirmation."
       echo "  -r  Reboot after upgrade."
       echo "  -s  Shutdown after upgrade."
+      echo "  -c  Do NOT update apt cache."
       exit 0
       ;;
     \?)
@@ -41,18 +41,26 @@ while getopts "hclrs" opt; do
   esac
 done
 
+if [ "$shutdown" = true ] && [ "$reboot" = true ] ; then
+    echo "Invalid options: -r and -s are mutually exclusive." >&2
+    usage 1>&2
+    exit 1
+fi
+
 if ! [ "$nocache" = true ] ; then
     sudo apt update
 fi
 
-if [ "$list" = true ] ; then
-    apt list --upgradable
+apt list --upgradable
 
-    if [ "$shutdown" = true ] || [ "$reboot" = true ] ; then
-        read -p "Press enter to continue"
-    else
-        exit 0
+if ! [ "$yes" = true ] ; then
+    more_text=""
+    if [ "$shutdown" = true ] ; then
+        more_text=" and shutdown"
+    elif [ "$reboot" = true ] ; then
+        more_text=" and reboot"
     fi
+    read -p "Press enter to upgrade$more_text..."
 fi
 
 sudo apt dist-upgrade -y
