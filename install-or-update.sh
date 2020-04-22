@@ -78,6 +78,16 @@ else
     exit_error "Cannot install: Your working directory is not clean (see above)."
 fi
 
+show_log() {
+    if [[ -f .MERGE_BASE ]]; then
+        read merge_base < .MERGE_BASE
+        if [[ ! -z $merge_base ]] && [[ $merge_base != $(git rev-parse origin/master) ]]; then
+            echo_info "Changelog:" \
+                      "$(git log $merge_base..origin/master --pretty='format:•biberconf• %B' --reverse | sed '/^\s*$/d' | sed -E 's/^([^•])/  \1/' | sed 's/•biberconf•/•/')"
+        fi
+    fi
+}
+
 self_update() {
     current_commit=$(git rev-parse HEAD)
     current_branch=$(git rev-parse --abbrev-ref HEAD)
@@ -98,15 +108,20 @@ self_update() {
 
         git fetch origin
         merge_base=$(git merge-base master origin/master)
+        if ! [[ -f .MERGE_BASE ]]; then
+            echo $merge_base > .MERGE_BASE
+        fi
         if [[ $merge_base != $(git rev-parse master) ]]; then
             if ! git rebase -p --onto $merge_base master; then
                 git rebase --abort || true
+                show_log
                 exit_error "Could not rebase." \
                            "Please manually remove the commits from (but not including) $merge_base until (including) master, resolve the conflicts and try again."
             fi
         fi
         if ! git rebase origin/master; then
             git rebase --abort || true
+            show_log
             exit_error "Could not rebase." \
                        "Please manually run 'git rebase origin/master', resolve the conflicts (with 'git mergetool --tool=kdiff3' or 'git mergetool --tool=vimdiff') and try again."
         fi
@@ -281,6 +296,9 @@ if ! [[ -d ~/.hstr_histories ]]; then
         cp ~/.bash_history ~/.hstr_histories/$(date -u +%Y-%m-%d_%H-%M-%S)_old-history
     fi
 fi
+
+show_log
+rm -f .MERGE_BASE
 
 echo_success "Installation successfull." \
              "You should restart your terminal now or at least call 'source ~/.bashrc'." \
