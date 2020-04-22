@@ -24,7 +24,11 @@
 
 # https://gnunn1.github.io/tilix-web/manual/vteconfig/
 if [ $TILIX_ID ] || [ $VTE_VERSION ]; then
-    source /etc/profile.d/vte.sh
+    if [ -f /etc/profile.d/vte.sh ]; then
+        source /etc/profile.d/vte.sh
+    else
+        source /etc/profile.d/vte-*.sh
+    fi
 fi
 
 # sets window title
