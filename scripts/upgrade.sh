@@ -34,7 +34,6 @@ while getopts "hyrsc" opt; do
       exit 0
       ;;
     \?)
-      echo "Invalid option: -$OPTARG" >&2
       usage 1>&2
       exit 1
       ;;
