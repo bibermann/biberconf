@@ -135,7 +135,7 @@ sudo apt install gitk  # Git GUI
 sudo apt install tilix  # Terminal emulator
 sudo apt install atom  # text editor
 sudo apt install speedcrunch  # calculator
-sudo apt install gnome-tweak-tool  # extended GNOME configuration
+sudo apt install gnome-tweaks  # extended GNOME configuration
 sudo apt install dconf-editor  # advanced GNOME configuration
 
 # Command-line tools
