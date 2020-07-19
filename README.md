@@ -31,7 +31,7 @@ Before replacing any configuration files with symlinks, a backup gets comitted i
 You have to install and configure Git (please adjust the name and the email):
 
 ```bash
-sudo apt update && sudo apt install git
+sudo apt update && sudo apt install -y git
 git config --global user.name "John Doe"
 git config --global user.email "johndoe@example.com"
 ```
@@ -57,7 +57,7 @@ cd ~/.biberconf
 
 ## Deinstallation
 
-Uninstalls all integrations and restores the configuration files under `user-backup/`.
+Uninstalls all integrations and restores the configuration files from `user-backup/`.
 
 ```bash
 cd ~/.biberconf
@@ -129,25 +129,74 @@ Shortcuts:
 
 # Recommended tools
 
+## Graphical tools
+
+- `gitk` (Git GUI)
+- `tilix` (Terminal emulator)
+- [`atom`](https://flight-manual.atom.io/getting-started/sections/installing-atom/#installing-atom-on-linux) (text editor)
+- `speedcrunch` (calculator)
+- `gnome-tweaks` (extended GNOME configuration)
+- `dconf-editor` (advanced GNOME configuration)
+
+<details><summary>Installation instructions</summary>
+<p>
+
 ```bash
-# Graphical tools
-sudo apt install gitk  # Git GUI
-sudo apt install tilix  # Terminal emulator
-sudo apt install atom  # text editor
-sudo apt install speedcrunch  # calculator
-sudo apt install gnome-tweaks  # extended GNOME configuration
-sudo apt install dconf-editor  # advanced GNOME configuration
-
-# Command-line tools
-sudo apt install tree  # recursive directory listing
-sudo apt install silversearcher-ag  # code-searching tool https://github.com/ggreer/the_silver_searcher
-sudo apt install jq  # command-line JSON processor https://stedolan.github.io/jq/
-sudo apt install cloc  # count lines of code
-sudo apt install most  # alternative to `more`
-sudo apt install mc  # Midnight Commander
-sudo apt install recode  # example: `recode latin-1..utf-8 myfile.txt`
-sudo apt install neofetch  # system information gathering
-
-# Add-ons
-sudo apt install git-lfs  # Git extension for versioning large files
+wget -qO - https://packagecloud.io/AtomEditor/atom/gpgkey | sudo apt-key add -
+sudo sh -c 'echo "deb [arch=amd64] https://packagecloud.io/AtomEditor/atom/any/ any main" > /etc/apt/sources.list.d/atom.list'
+sudo apt update
+sudo apt install -y gitk tilix atom speedcrunch gnome-tweaks dconf-editor
 ```
+
+</p>
+</details>
+
+## Command-line tools
+
+- `git-lfs` (Git extension for versioning large files)
+- `tree` (recursive directory listing)
+- `silversearcher-ag` ([code-searching tool](https://github.com/ggreer/the_silver_searcher))
+- `jq` ([command-line JSON processor](https://stedolan.github.io/jq/))
+- `cloc` (count lines of code)
+- `most` (alternative to `more`)
+- `mc` (Midnight Commander)
+- `recode` (example: `recode latin-1..utf-8 myfile.txt`)
+- `neofetch` (system information gathering)
+
+<details><summary>Installation instructions</summary>
+<p>
+
+```bash
+sudo apt install -y tree silversearcher-ag jq cloc most mc recode neofetch git-lfs
+```
+
+</p>
+</details>
+
+## Developer's tools
+
+- `curl`
+- [`direnv`](https://direnv.net/docs/installation.html)
+- [`pyenv`](https://github.com/pyenv/pyenv#installation)
+- [`poetry`](https://python-poetry.org/docs/#installation)
+
+<details><summary>Installation instructions</summary>
+<p>
+
+```bash
+sudo apt install -y \
+    curl direnv \
+    `# pyenv` \
+        build-essential libssl-dev zlib1g-dev libbz2-dev \
+        libreadline-dev libsqlite3-dev wget llvm libncurses5-dev libncursesw5-dev \
+        xz-utils tk-dev libffi-dev liblzma-dev python-openssl \
+    `# poetry` \
+        python3-venv
+curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
+curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python
+
+# Please re-login now.
+```
+
+</p>
+</details>
