@@ -283,6 +283,7 @@ for i in "${!links[@]}"; do
 
             rm $link
         fi
+        mkdir -p $(dirname $link)
         ln -s "$(pwd)/$target" $link
     fi
 done
