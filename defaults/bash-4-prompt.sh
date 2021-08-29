@@ -35,7 +35,8 @@ fi
 if ! declare -f -F __vte_osc7 >/dev/null; then
     __vte_osc7() { :; }
 fi
-export PROMPT_COMMAND='echo -ne "\033]0;${PWD/#$HOME/\~}\007$(__vte_osc7)"; on_save_last_command'
+separator=' · '  # ·–
+export PROMPT_COMMAND='echo -ne "\033]0;${PWD/#$HOME/\~}${separator}$(hostname)\007$(__vte_osc7)"; on_save_last_command'
 
 # requires bash-git-prompt
 #   https://github.com/magicmonty/bash-git-prompt
