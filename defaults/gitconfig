@@ -21,6 +21,7 @@
     # requires entr
     #   sudo apt install entr
     a = !cd -- "./${GIT_PREFIX}" && ~/.biberconf/scripts/git-auto-log.sh
+    as = !cd -- "./${GIT_PREFIX}" && ~/.biberconf/scripts/git-auto-status.sh
 [filter "lfs"]
     required = true
     clean = git-lfs clean -- %f
