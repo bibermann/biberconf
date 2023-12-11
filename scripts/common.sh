@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 links=(
     ~/.bashrc
     ~/.gitconfig
@@ -70,13 +72,17 @@ echo_info() {
 read_reply() {
     echo
     echo -e "${BIBERCONF_TITLE}"
-    array=("$@")
-    prompt="${array[-1]}"
+    local array; array=("$@")
+    local prompt; prompt="${array[-1]}"
     echo -en "${COLOR_INFO}"
     for line in "${@:1:$#-1}"; do
         echo -e "$line"
     done
     echo -en "${COLOR_PROMPT}$prompt${COLOR_NO}"
-    read -p " "
+    read -rp " "
     echo -e "${COLOR_NO}"
+}
+
+is_gui() {
+    [ -n "${DISPLAY:-}" ]
 }

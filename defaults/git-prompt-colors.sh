@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 # This is the custom theme template for gitprompt.sh
 
 # These are the defaults from the "Default" theme

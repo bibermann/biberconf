@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-
 set -euo pipefail
 
 yes=false
@@ -46,20 +45,20 @@ if [ "$shutdown" = true ] && [ "$reboot" = true ] ; then
     exit 1
 fi
 
-if ! [ "$nocache" = true ] ; then
+if ! [ $nocache = true ] ; then
     sudo apt update
 fi
 
 apt list --upgradable
 
-if ! [ "$yes" = true ] ; then
+if ! [ $yes = true ] ; then
     more_text=""
     if [ "$shutdown" = true ] ; then
         more_text=" and shutdown"
     elif [ "$reboot" = true ] ; then
         more_text=" and reboot"
     fi
-    read -p "Press enter to upgrade$more_text..."
+    read -rp "Press enter to upgrade$more_text..."
 fi
 
 sudo apt dist-upgrade -y

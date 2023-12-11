@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 #********************************************
 # general stuff you would not want to change
 #********************************************
@@ -38,7 +40,7 @@ unset color_prompt
 # pyenv support
 #***************
 
-if [[ -d ~/.pyenv/bin ]]; then
+if [ -d ~/.pyenv/bin ]; then
     export PATH="$HOME/.pyenv/bin:$PATH"
 fi
 

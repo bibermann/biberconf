@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 #***********************
 # history configuration
 #***********************
@@ -20,31 +22,31 @@ hstr_sessions_root=/dev/shm/hstr_sessions
 hstr_histories_root=~/.hstr_histories
 mkdir -p $hstr_sessions_root
 hstr_session_file=$(mktemp -p $hstr_sessions_root)
-hstr_history_file=~/.hstr_histories/$(date -u +%Y-%m-%d_%H-%M-%S)_$BASHPID
-cat ~/.hstr_histories/* > $hstr_session_file
+hstr_history_file=$hstr_histories_root/$(date -u +%Y-%m-%d_%H-%M-%S)_$BASHPID
+cat $hstr_histories_root/* > "$hstr_session_file"
 export HISTTIMEFORMAT='%F %T '
 HISTORY_LAST_COMMAND=
 HISTORY_IS_FIRST_COMMAND=1
 on_save_last_command() {
-    if [[ "$HISTORY_IS_FIRST_COMMAND" == "1" ]]; then
+    if [ "$HISTORY_IS_FIRST_COMMAND" = 1 ]; then
         HISTORY_IS_FIRST_COMMAND=0
         HISTORY_LAST_COMMAND=$(HISTTIMEFORMAT="" history 1 | sed 's/^ *[0-9]* *//')
         return
     fi
-    local cmd=$(HISTTIMEFORMAT="" history 1 | sed 's/^ *[0-9]* *//')
-    if [[ $cmd == $HISTORY_LAST_COMMAND ]] || [[ -z $cmd ]]; then
+    local cmd; cmd="$(HISTTIMEFORMAT="" history 1 | sed 's/^ *[0-9]* *//')"
+    if [ "$cmd" = "$HISTORY_LAST_COMMAND" ] || [ -z "$cmd" ]; then
         return
     fi
     HISTORY_LAST_COMMAND="$cmd"
-    local date_string=$(date +%s)
-    echo "#$date_string" >> $hstr_history_file
-    echo "#$date_string" >> $hstr_session_file
-    echo "$cmd" >> $hstr_history_file
-    echo "$cmd" >> $hstr_session_file
+    local date_string; date_string=$(date +%s)
+    echo "#$date_string" >> "$hstr_history_file"
+    echo "#$date_string" >> "$hstr_session_file"
+    echo "$cmd" >> "$hstr_history_file"
+    echo "$cmd" >> "$hstr_session_file"
 }
 on_bash_exit() {
     on_save_last_command
-    rm $hstr_session_file
+    rm "$hstr_session_file"
 }
 trap on_bash_exit EXIT
 
@@ -53,19 +55,19 @@ on_ctrl_c_for_hstr() {
 }
 
 run_hstr() {
-    if [[ "$1" != "-r" ]]; then
+    if [ "$1" != -r ]; then
         local HSTR_CONFIG=$HSTR_CONFIG,raw-history-view
     else
         shift
     fi
-    if [[ "$1" != "-f" ]]; then
+    if [ "$1" != -f ]; then
         local separator=--
     else
         local separator=
     fi
     local offset=${READLINE_POINT}
     trap on_ctrl_c_for_hstr INT
-    { READLINE_LINE=$(</dev/tty HISTFILE="$hstr_session_file" HSTR_CONFIG="$HSTR_CONFIG" HSTR_IS_SUBSHELL=1 hstr "$@" $separator ${READLINE_LINE:0:offset} 2>&1 1>&$hstrout); } {hstrout}>&1
+    { READLINE_LINE=$(</dev/tty HISTFILE="$hstr_session_file" HSTR_CONFIG="$HSTR_CONFIG" HSTR_IS_SUBSHELL=1 hstr "$@" $separator "${READLINE_LINE:0:offset}" 2>&1 1>&$hstrout); } {hstrout}>&1
     trap - INT
     exec {hstrout}>&-
 }

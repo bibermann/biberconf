@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-
 set -euo pipefail
 
 #**************
@@ -12,7 +11,7 @@ set -euo pipefail
 # preconditions
 #***************
 
-if [[ $(git rev-parse --show-toplevel) != $(realpath $HOME/.biberconf) ]]; then
+if [ "$(git rev-parse --show-toplevel)" != "$(realpath "$HOME/.biberconf")" ]; then
     exit_error "Cannot uninstall: This repo was moved away from '$HOME/.biberconf'."
 fi
 cd ~/.biberconf
@@ -38,16 +37,16 @@ sed -i '\#^\. "\$HOME/.biberconf/defaults/profile.sh"$#d' ~/.profile
 for i in "${!links[@]}"; do
     link="${links[$i]}"
     backup="${backups[$i]}"
-    if [[ -L $link ]]; then
-        rm $link
-        if [[ -f $link ]]; then
-            cp user-backup/$backup $link
+    if [ -L "$link" ]; then
+        rm "$link"
+        if [ -f "$link" ]; then
+            cp "user-backup/$backup" "$link"
         fi
     fi
 done
 
-current_branch=$(git rev-parse --abbrev-ref HEAD)
-if [[ $current_branch == $default_user_branch ]]; then
+current_branch="$(git rev-parse --abbrev-ref HEAD)"
+if [ "$current_branch" = "$default_user_branch" ]; then
     read_reply "Should I remove your '$default_user_branch' branch? [y|n]"
     if [[ $REPLY =~ ^[Yy]$ ]]; then
         git checkout master

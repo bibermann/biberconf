@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 # bluegreen, ekvoli, zmrok, ...
 # Run `_ccat_test_selected_themes` or `_ccat_test_all_themes` to see previews.
 CCAT_THEME="$CCAT_THEME"

@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 #*************
 # default PS1
 #*************
@@ -13,7 +15,7 @@
 #     PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
 # fi
 #
-# # If this is an xterm set the title to user@host:dir
+# # If this is a xterm set the title to user@host:dir
 # case "$TERM" in
 #     xterm*|rxvt*) PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1";;
 # esac
@@ -23,7 +25,7 @@
 #************
 
 # https://gnunn1.github.io/tilix-web/manual/vteconfig/
-if [ $TILIX_ID ] || [ $VTE_VERSION ]; then
+if [ "$TILIX_ID" ] || [ "$VTE_VERSION" ]; then
     if [ -f /etc/profile.d/vte.sh ]; then
         source /etc/profile.d/vte.sh
     else
