@@ -5,7 +5,7 @@ Tools, tweaks and configs for a Bash command line environment.
 Currently working on Debian based systems including Ubuntu (server and desktop environments).
 
 Biberconf includes:
-- [bash-git-prompt: An informative and fancy bash prompt for Git users](https://github.com/magicmonty/bash-git-prompt) (slightly modified version)
+- [bash-git-prompt: An informative and fancy bash prompt for Git users](https://github.com/magicmonty/bash-git-prompt)
 - [HSTR: Easily view, navigate and search your command history](https://github.com/dvorka/hstr) (slightly modified version)
 - [pss: A power-tool for searching inside source code files](https://github.com/eliben/pss)
 - [stderred: stderr in red](https://github.com/sickill/stderred)

@@ -1,7 +1,6 @@
 [submodule "thirdparty/bash-git-prompt"]
     path = thirdparty/bash-git-prompt
-    url = https://github.com/bibermann/bash-git-prompt.git
-    branch = configurable-venv-positioning
+    url = https://github.com/magicmonty/bash-git-prompt.git
 [submodule "thirdparty/stderred"]
     path = thirdparty/stderred
     url = https://github.com/sickill/stderred.git
