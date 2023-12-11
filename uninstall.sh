@@ -5,6 +5,7 @@ set -euo pipefail
 # common stuff
 #**************
 
+. scripts/system.sh
 . scripts/common.sh
 
 #***************

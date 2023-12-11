@@ -15,8 +15,14 @@ alias fgrep='fgrep --color=auto -n'
 alias egrep='egrep --color=auto -n'
 
 alias git='LANGUAGE=en_US.UTF-8 git'
-alias open=xdg-open
-alias upgrade=~/.biberconf/scripts/upgrade.sh
+
+if is_gui; then
+    alias open=xdg-open
+fi
+
+if is_debian; then
+    alias upgrade=~/.biberconf/tools/debian.upgrade.sh
+fi
 
 # requires stderred
 #   https://github.com/sickill/stderred

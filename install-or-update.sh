@@ -7,6 +7,7 @@ set -euo pipefail
 
 COMMON_SCRIPT=scripts/common.sh
 
+. scripts/system.sh
 . scripts/common.sh
 
 #***************
@@ -28,32 +29,64 @@ if [ -z "$(git config user.name)" ] || [ -z "$(git config user.email)" ]; then
                'git config --global user.email johndoe@example.com'
 fi
 
-required_packages=(
-    vim
-    entr  # for `git a` and `git as`
-    highlight  # for `ccat`
-    build-essential cmake  # for `stderred`
-    automake gcc make pkg-config libncursesw5-dev libreadline-dev  # for `hstr`
-)
-if is_gui; then
-    required_packages+=(
-        meld kdiff3
-        dconf-cli  # for installation script
+if is_debian; then
+    required_packages=(
+        vim
+        entr  # for `git a` and `git as`
+        highlight  # for `ccat`
+        build-essential cmake  # for `stderred`
+        automake gcc make pkg-config libncursesw5-dev libreadline-dev  # for `hstr`
     )
-fi
-
-not_installed_packages=()
-for package in "${required_packages[@]}"; do
-    if ! dpkg-query -W -f='${Status}' "$package" 2>/dev/null | grep "^install ok installed$" >/dev/null 2>&1; then
-        not_installed_packages+=("$package")
+    if is_gui; then
+        required_packages+=(
+            meld kdiff3
+            dconf-cli  # for installation script
+        )
     fi
-done
-if [ ${#not_installed_packages[@]} -gt 0 ]; then
-    echo_info "Installing required packages (${not_installed_packages[*]}), sudo required..."
-    set -x
-    sudo apt update
-    sudo apt install -y "${not_installed_packages[@]}"
-    set +x
+
+    not_installed_packages=()
+    for package in "${required_packages[@]}"; do
+        if ! dpkg-query -W -f='${Status}' "$package" 2>/dev/null | grep "^install ok installed$" >/dev/null 2>&1; then
+            not_installed_packages+=("$package")
+        fi
+    done
+    if [ ${#not_installed_packages[@]} -gt 0 ]; then
+        echo_info "Installing required packages (${not_installed_packages[*]}), sudo required..."
+        set -x
+        sudo apt update
+        sudo apt install -y "${not_installed_packages[@]}"
+        set +x
+    fi
+elif is_arch; then
+    required_packages=(
+        extra/vim
+        extra/entr  # for `git a` and `git as`
+        extra/highlight  # for `ccat`
+        core/base-devel extra/cmake  # for `stderred`
+        core/inetutils  # for `hostname`
+    )
+    if is_gui; then
+        required_packages+=(
+            extra/meld extra/kdiff3
+            extra/dconf  # for installation script
+        )
+    fi
+
+    not_installed_packages=()
+    for package in "${required_packages[@]}"; do
+        if ! pacman -Qi "$package" &> /dev/null; then
+            not_installed_packages+=("$package")
+        fi
+    done
+    if [ ${#not_installed_packages[@]} -gt 0 ]; then
+        echo_info "Installing required packages (${not_installed_packages[*]}), sudo required..."
+        set -x
+        pacman -S "${not_installed_packages[@]}"
+        set +x
+    fi
+else
+    exit_error "Unsupported distribution or cannot identify distribution." \
+               "Only Debian based and Arch based distributions are supported."
 fi
 
 #*************
@@ -174,16 +207,25 @@ git submodule update --init
 #******
 
 cd thirdparty/hstr
-cd build/tarball
-./tarball-automake.sh
-cd ../..
-./configure
-make
-echo_info "Installing HSTR, sudo required..."
-set -x
-if [ -f /usr/local/bin/hh ]; then sudo rm /usr/local/bin/hh; fi
-sudo make install
-set +x
+
+if is_debian; then
+    cd build/tarball
+    ./tarball-automake.sh
+    cd ../..
+    ./configure
+    make
+    echo_info "Installing HSTR, sudo required..."
+    set -x
+    if [ -f /usr/local/bin/hh ]; then sudo rm /usr/local/bin/hh; fi
+    sudo make install
+    set +x
+elif is_arch; then
+    echo_info "Installing HSTR, sudo required..."
+    set -x
+    makepkg --syncdeps --install --clean
+    set +x
+fi
+
 cd ../..
 
 #**********
