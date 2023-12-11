@@ -82,7 +82,3 @@ read_reply() {
     read -rp " "
     echo -e "${COLOR_NO}"
 }
-
-is_gui() {
-    [ -n "${DISPLAY:-}" ]
-}

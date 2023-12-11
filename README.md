@@ -2,7 +2,10 @@
 
 Tools, tweaks and configs for a Bash command line environment.
 
-Currently working on Debian based systems including Ubuntu (server and desktop environments).
+Currently working on:
+- Debian based systems including Ubuntu (server and desktop environments)
+- Arch based systems
+- X.org (Wayland is not yet tested)
 
 Biberconf includes:
 - [bash-git-prompt: An informative and fancy bash prompt for Git users](https://github.com/magicmonty/bash-git-prompt)
@@ -31,7 +34,12 @@ Before replacing any configuration files with symlinks, a backup gets comitted i
 You have to install and configure Git (please adjust the name and the email):
 
 ```bash
+# debian
 sudo apt update && sudo apt install -y git
+
+# arch
+pacman -S extra/git
+
 git config --global user.name "John Doe"
 git config --global user.email "johndoe@example.com"
 ```
@@ -103,8 +111,6 @@ Shortcuts:
 
 ### Available commands
 
-- `upgrade`: Upgrades your system, optionally shutting down afterwards, see `upgrade -h` for options.
-- `open`: Shortcut for `xdg-open`
 - `ccat FILE [FILES...]`: Prints the file(s) with syntax highlighting.
     - Change theme in `ccat_theme.sh`.
         - Show favorite themes: `_ccat_test_selected_themes [TEST_FILE]`
@@ -117,6 +123,14 @@ Shortcuts:
     - `l`
     - `ll`
     - `la`
+
+#### Desktop environments only
+
+- `open`: Shortcut for `xdg-open`
+
+#### Debian based systems only
+
+- `upgrade`: Upgrades your system, optionally shutting down afterwards, see `upgrade -h` for options.
 
 ### Git aliases
 
@@ -133,19 +147,31 @@ Shortcuts:
 
 - `gitk` (Git GUI)
 - `tilix` (Terminal emulator)
-- [`atom`](https://flight-manual.atom.io/getting-started/sections/installing-atom/#installing-atom-on-linux) (text editor)
 - `speedcrunch` (calculator)
 - `gnome-tweaks` (extended GNOME configuration)
 - `dconf-editor` (advanced GNOME configuration)
 
-<details><summary>Installation instructions</summary>
+<details><summary>Installation instructions (Debian)</summary>
 <p>
 
 ```bash
-wget -qO - https://packagecloud.io/AtomEditor/atom/gpgkey | sudo apt-key add -
-sudo sh -c 'echo "deb [arch=amd64] https://packagecloud.io/AtomEditor/atom/any/ any main" > /etc/apt/sources.list.d/atom.list'
 sudo apt update
 sudo apt install -y gitk tilix atom speedcrunch gnome-tweaks dconf-editor
+```
+
+</p>
+</details>
+
+<details><summary>Installation instructions (Arch)</summary>
+<p>
+
+<!--
+Note: tk and tcl are required to run gitk.
+-->
+
+```bash
+pacman -S extra/{tk,tcl,tilix,speedcrunch,dconf-editor}
+paru -S aur/archlinux-tweak-tool-git
 ```
 
 </p>
@@ -155,7 +181,7 @@ sudo apt install -y gitk tilix atom speedcrunch gnome-tweaks dconf-editor
 
 - `git-lfs` (Git extension for versioning large files)
 - `tree` (recursive directory listing)
-- `silversearcher-ag` ([code-searching tool](https://github.com/ggreer/the_silver_searcher))
+- `ag` ([code-searching tool](https://github.com/ggreer/the_silver_searcher))
 - `jq` ([command-line JSON processor](https://stedolan.github.io/jq/))
 - `cloc` (count lines of code)
 - `most` (alternative to `more`)
@@ -163,11 +189,21 @@ sudo apt install -y gitk tilix atom speedcrunch gnome-tweaks dconf-editor
 - `recode` (example: `recode latin-1..utf-8 myfile.txt`)
 - `neofetch` (system information gathering)
 
-<details><summary>Installation instructions</summary>
+<details><summary>Installation instructions (Debian)</summary>
 <p>
 
 ```bash
-sudo apt install -y tree silversearcher-ag jq cloc most mc recode neofetch git-lfs
+sudo apt install -y git-lfs tree silversearcher-ag jq cloc most mc recode neofetch
+```
+
+</p>
+</details>
+
+<details><summary>Installation instructions (Arch)</summary>
+<p>
+
+```bash
+pacman -S extra/{git-lfs,tree,the_silver_searcher,jq,cloc,most,mc,recode,neofetch}
 ```
 
 </p>
@@ -180,7 +216,7 @@ sudo apt install -y tree silversearcher-ag jq cloc most mc recode neofetch git-l
 - [`pyenv`](https://github.com/pyenv/pyenv#installation)
 - [`poetry`](https://python-poetry.org/docs/#installation)
 
-<details><summary>Installation instructions</summary>
+<details><summary>Installation instructions (Debian)</summary>
 <p>
 
 ```bash
@@ -196,6 +232,17 @@ curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer 
 curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python
 
 # Please re-login now.
+```
+
+</p>
+</details>
+
+<details><summary>Installation instructions (Arch)</summary>
+<p>
+
+```bash
+pacman -S core/curl
+pacman -S extra/{direnv,pyenv,python-poetry}
 ```
 
 </p>
