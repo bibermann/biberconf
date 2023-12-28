@@ -202,7 +202,7 @@ for i in "${!links[@]}"; do
     link="${links[$i]}"
     backup="${backups[$i]}"
     if ! [ -L "$link" ] && [ -f "$link" ]; then
-        cp "$link" "user-backup/$backup"
+        cp -a "$link" "user-backup/$backup"
         git add "user-backup/$backup"
         git commit -m "Backup ${link/"$HOME/"/"~/"} to ./user-backup/$backup."
     fi
@@ -283,7 +283,7 @@ grep -q '^\. "\$HOME/\.biberconf/defaults/profile.sh"$' ~/.profile || echo -e '.
 if ! [ -d ~/.hstr_histories ]; then
     mkdir ~/.hstr_histories
     if [ -f ~/.bash_history ]; then
-        cp ~/.bash_history ~/.hstr_histories/"$(date -u +%Y-%m-%d_%H-%M-%S)_old-history"
+        cp -a ~/.bash_history ~/.hstr_histories/"$(date -u +%Y-%m-%d_%H-%M-%S)_old-history"
     fi
 fi
 

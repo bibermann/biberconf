@@ -39,9 +39,9 @@ for i in "${!links[@]}"; do
     backup="${backups[$i]}"
     if [ -L "$link" ]; then
         rm "$link"
-        if [ -f "$link" ]; then
-            cp "user-backup/$backup" "$link"
-        fi
+    fi
+    if ! [ -f "$link" ] && [ -f "user-backup/$backup" ]; then
+        cp -a "user-backup/$backup" "$link"
     fi
 done
 
