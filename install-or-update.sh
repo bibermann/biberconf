@@ -256,7 +256,7 @@ for i in "${!links[@]}"; do
     backup="${backups[$i]}"
     if ! [ -L "$link" ]; then
         if [ "$target" = gitconfig ] && ! is_gui; then
-            sed -i 's#/desktop.gitconfig$#/server.gitconfig#' "$target"
+            sed -i 's#/.gitconfig$#/server.gitconfig#' "$target"
             git add "$target"
             git commit -m "Switch to server configurations due to missing GUI."
         fi
@@ -319,8 +319,9 @@ for i in "${!links[@]}"; do
     fi
 done
 
-grep -q '^\. "\$HOME/\.biberconf/config/profile.sh"$' ~/.profile && sed -i 's#^\. "\$HOME/\.biberconf/config/profile.sh"$#. "$HOME/.biberconf/defaults/profile.sh"#g' ~/.profile  # update
-grep -q '^\. "\$HOME/\.biberconf/defaults/profile.sh"$' ~/.profile || echo -e '. "$HOME/.biberconf/defaults/profile.sh"\n' >> ~/.profile
+grep -q '^\. "\$HOME/\.biberconf/config/profile.sh"$' ~/.profile && sed -i 's#^\. "\$HOME/\.biberconf/config/profile.sh"$#. "$HOME/.biberconf/config/shell/.profile"#g' ~/.profile  # update
+grep -q '^\. "\$HOME/\.biberconf/defaults/profile.sh"$' ~/.profile && sed -i 's#^\. "\$HOME/\.biberconf/defaults/profile.sh"$#. "$HOME/.biberconf/config/shell/.profile"#g' ~/.profile  # update
+grep -q '^\. "\$HOME/\.biberconf/config/shell/.profile"$' ~/.profile || echo -e '. "$HOME/.biberconf/config/shell/.profile"\n' >> ~/.profile
 
 if ! [ -d ~/.hstr_histories ]; then
     mkdir ~/.hstr_histories

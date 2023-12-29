@@ -1,1 +1,1 @@
-source ~/.biberconf/defaults/vimrc
+source ~/.biberconf/config/.vimrc

@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-. ~/.biberconf/defaults/bashrc
+. ~/.biberconf/config/shell/.bashrc
