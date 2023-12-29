@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+alias git='LANGUAGE=en_US.UTF-8 git'
+
 #**************************************************************
 # auto completion for git aliases (see ~/.biberconf/gitconfig)
 #**************************************************************
@@ -12,3 +14,24 @@
 #   {
 #     __gitcomp_nl "$(__git_refs)"
 #   }
+
+_git_s()
+{
+  __gitcomp_nl "$(__git_refs)"
+}
+_git_d()
+{
+  __gitcomp_nl "$(__git_refs)"
+}
+_git_l()
+{
+  __gitcomp_nl "$(__git_refs)"
+}
+_git_a()
+{
+  __gitcomp_nl "$(__git_refs)"
+}
+_git_as()
+{
+  __gitcomp_nl "$(__git_refs)"
+}

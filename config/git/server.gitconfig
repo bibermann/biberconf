@@ -1,5 +1,5 @@
 [include]
-    path = ~/.biberconf/defaults/gitconfig
+    path = ~/.biberconf/config/git/.gitconfig
 [diff]
     tool = vimdiff
 [merge]

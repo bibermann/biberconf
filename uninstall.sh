@@ -33,7 +33,7 @@ cd ../..
 # biberconf
 #***********
 
-sed -i '\#^\. "\$HOME/.biberconf/defaults/profile.sh"$#d' ~/.profile
+sed -i '\#^\. "\$HOME/.biberconf/config/shell/.profile"$#d' ~/.profile
 
 for i in "${!links[@]}"; do
     link="${links[$i]}"

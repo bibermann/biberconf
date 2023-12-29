@@ -9,7 +9,7 @@
 #     debian_chroot=$(cat /etc/debian_chroot)
 # fi
 #
-# if [ "$color_prompt" = yes ]; then
+# if [ "$with_terminal_colors" = yes ]; then
 #     PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
 # else
 #     PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
@@ -44,7 +44,7 @@ export PROMPT_COMMAND='echo -ne "\033]0;${PWD/#$HOME/\~}${separator}$(hostname)\
 #   https://github.com/magicmonty/bash-git-prompt
 GIT_PROMPT_ONLY_IN_REPO=0
 GIT_PROMPT_THEME=Custom
-GIT_PROMPT_THEME_FILE=~/.biberconf/defaults/git-prompt-colors.sh
+GIT_PROMPT_THEME_FILE=~/.biberconf/config/shell/bash-git-prompt-colors.sh
 GIT_PROMPT_FETCH_REMOTE_STATUS=0
 GIT_PROMPT_SHOW_UPSTREAM=0
 GIT_PROMPT_VIRTUAL_ENV_AFTER_PROMPT=1

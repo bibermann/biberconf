@@ -1,2 +1,2 @@
 [include]
-    path = ~/.biberconf/defaults/desktop.gitconfig
+    path = ~/.biberconf/config/git/.gitconfig
