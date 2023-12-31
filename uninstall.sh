@@ -50,7 +50,7 @@ current_branch="$(git rev-parse --abbrev-ref HEAD)"
 if [ "$current_branch" = "$default_user_branch" ]; then
     read_reply "Should I remove your '$default_user_branch' branch? [y|n]"
     if [[ $REPLY =~ ^[Yy]$ ]]; then
-        git checkout master
+        git checkout main
         git branch -D $default_user_branch
     fi
 fi

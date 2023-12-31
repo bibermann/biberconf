@@ -103,9 +103,9 @@ fi
 show_log() {
     if [ -f .MERGE_BASE ]; then
         read -r merge_base < .MERGE_BASE
-        if [ -n "$merge_base" ] && [ "$merge_base" != "$(git rev-parse origin/master)" ]; then
+        if [ -n "$merge_base" ] && [ "$merge_base" != "$(git rev-parse origin/main)" ]; then
             echo_info "Changelog:" \
-                      "$(git log "$merge_base..origin/master" --pretty='format:•biberconf• %B' --reverse | sed '/^\s*$/d' | sed -E 's/^([^•])/  \1/' | sed 's/•biberconf•/•/')"
+                      "$(git log "$merge_base..origin/main" --pretty='format:•biberconf• %B' --reverse | sed '/^\s*$/d' | sed -E 's/^([^•])/  \1/' | sed 's/•biberconf•/•/')"
         fi
     fi
 }
@@ -115,7 +115,7 @@ self_update() {
     local current_branch; current_branch="$(git rev-parse --abbrev-ref HEAD)"
     if git show-ref --verify --quiet "refs/heads/$default_user_branch"; then
         # at least the default user branch exists
-        if [ "$current_branch" = master ]; then
+        if [ "$current_branch" = main ]; then
             exit_error "Cannot install: Expecting you are on a user-defined branch like '$default_user_branch'."
         fi
 
@@ -129,33 +129,33 @@ self_update() {
         fi
 
         git fetch origin
-        merge_base=$(git merge-base master origin/master)
+        merge_base=$(git merge-base main origin/main)
         if ! [ -f .MERGE_BASE ]; then
             echo "$merge_base" > .MERGE_BASE
         fi
-        if [ "$merge_base" != "$(git rev-parse master)" ]; then
-            if ! git rebase -p --onto "$merge_base" master; then
+        if [ "$merge_base" != "$(git rev-parse main)" ]; then
+            if ! git rebase -p --onto "$merge_base" main; then
                 git rebase --abort || true
                 show_log
                 exit_error "Could not rebase." \
-                           "Please manually remove the commits from (but not including) $merge_base until (including) master, resolve the conflicts and try again."
+                           "Please manually remove the commits from (but not including) $merge_base until (including) main, resolve the conflicts and try again."
             fi
         fi
-        if ! git rebase origin/master; then
+        if ! git rebase origin/main; then
             git rebase --abort || true
             show_log
             exit_error "Could not rebase." \
-                       "Please manually run 'git rebase origin/master', resolve the conflicts (with 'git mergetool --tool=kdiff3' or 'git mergetool --tool=vimdiff') and try again."
+                       "Please manually run 'git rebase origin/main', resolve the conflicts (with 'git mergetool --tool=kdiff3' or 'git mergetool --tool=vimdiff') and try again."
         fi
-        git branch -f master origin/master
+        git branch -f main origin/main
     else
-        if [ "$current_branch" != master ]; then
-            exit_error "Cannot install: Expecting you are on the 'master' branch."
+        if [ "$current_branch" != main ]; then
+            exit_error "Cannot install: Expecting you are on the 'main' branch."
         fi
 
         # fresh install
 
-        git pull origin master
+        git pull origin main
         git checkout -b "$default_user_branch"
 
         for link in "${links[@]}"; do
