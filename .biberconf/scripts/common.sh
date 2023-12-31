@@ -1,31 +1,7 @@
 #!/usr/bin/env bash
 
-links=(
-    ~/.bashrc
-    ~/.gitconfig
-    ~/.hstr_blacklist
-    ~/.hstr_favorites
-    ~/.vimrc
-    ~/.ssh/config
-)
-targets=(
-    bashrc
-    gitconfig
-    hstr_blacklist
-    hstr_favorites
-    vimrc
-    ssh_config
-)
-backups=(
-    bashrc
-    gitconfig
-    hstr_blacklist
-    hstr_favorites
-    vimrc
-    ssh_config
-)
-
-default_user_branch="custom"
+MAIN_BRANCH="new-version"
+DEFAULT_USER_BRANCH="custom"
 
 COLOR_SUCCESS='\033[1;32m'
 COLOR_ERROR='\033[1;31m'

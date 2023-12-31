@@ -1,1 +1,0 @@
-source ~/.biberconf/config/.vimrc
