@@ -10,7 +10,6 @@ Currently working on:
 Biberconf includes:
 - [bash-git-prompt: An informative and fancy bash prompt for Git users](https://github.com/magicmonty/bash-git-prompt)
 - [HSTR: Easily view, navigate and search your command history](https://github.com/dvorka/hstr) (slightly modified version)
-- [pss: A power-tool for searching inside source code files](https://github.com/eliben/pss)
 - [stderred: stderr in red](https://github.com/sickill/stderred)
 - Recommended settings for Git, Vim, and the tools listed above
 - Some useful Bash and Git aliases/scripts
@@ -127,7 +126,6 @@ Shortcuts:
         - Show favorite themes: `_ccat_test_selected_themes [TEST_FILE]`
         - Show all themes: `_ccat_test_all_themes [TEST_FILE]`
 - `stderred COMMAND`: Executes the command, highlighting all output to stderr with red.
-- `pss ARGS...`: Runs `pss` ignoring directories listed in `pss_ignore.sh`.
 - More aliases:
     - `git` (language set to english)
     - `alert` (use like `sleep 10; alert` to notify you when the previous command (here `sleep 10`) has finished)

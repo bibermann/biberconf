@@ -4,9 +4,6 @@
 [submodule ".biberconf/thirdparty/stderred"]
     path = .biberconf/thirdparty/stderred
     url = https://github.com/sickill/stderred.git
-[submodule ".biberconf/thirdparty/pss"]
-    path = .biberconf/thirdparty/pss
-    url = https://github.com/eliben/pss.git
 [submodule ".biberconf/thirdparty/hstr"]
     path = .biberconf/thirdparty/hstr
     url = https://github.com/bibermann/hstr.git
