@@ -10,7 +10,7 @@ Currently working on:
 Biberconf includes:
 - [bash-git-prompt: An informative and fancy bash prompt for Git users](https://github.com/magicmonty/bash-git-prompt)
 - [HSTR: Easily view, navigate and search your command history](https://github.com/dvorka/hstr) (slightly modified version)
-- [stderred: stderr in red](https://github.com/sickill/stderred)
+- [stderred: stderr in red](https://github.com/ku1ik/stderred)
 - Recommended settings for Git, Vim, and the tools listed above
 - Some useful Bash and Git aliases/scripts
 

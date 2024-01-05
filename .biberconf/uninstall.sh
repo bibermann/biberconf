@@ -50,6 +50,7 @@ cd ../../..
 # .bashrc
 for bashrc_file in .bashrc .bashrc-personal; do
   if [ -f "$bashrc_file" ]; then
+    sed -i '/^export BIBERCONF_AUR_HELPER=/d' "$bashrc_file"
     sed -i '\#^source "\$HOME/.biberconf/config/shell/.bashrc"$#d' "$bashrc_file"
     if ! [ -s "$bashrc_file" ]; then
       rm "$bashrc_file"
