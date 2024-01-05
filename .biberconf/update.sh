@@ -65,8 +65,10 @@ show_log() {
 }
 
 self_update() {
-  local current_commit; current_commit="$(git rev-parse HEAD)"
-  local current_branch; current_branch="$(git rev-parse --abbrev-ref HEAD)"
+  local current_commit
+  current_commit="$(git rev-parse HEAD)"
+  local current_branch
+  current_branch="$(git rev-parse --abbrev-ref HEAD)"
   if git show-ref --verify --quiet "refs/heads/$DEFAULT_USER_BRANCH"; then
     # at least the default user branch exists
     if [ "$current_branch" = "$MAIN_BRANCH" ]; then
@@ -120,7 +122,8 @@ self_update() {
     fi
   fi
 
-  local this_script_name; this_script_name="$(basename "$0")"
+  local this_script_name
+  this_script_name="$(basename "$0")"
   if git diff --name-only "$current_commit..HEAD" | grep -q -E "$this_script_name|scripts/(common|system)"; then
     echo_info "I updated myself, restarting..."
     if ! [ -f ".biberconf/$this_script_name" ]; then
@@ -137,6 +140,35 @@ self_update "$@"
 git submodule sync --recursive
 git submodule update --init --recursive
 
+#************
+# AUR helper
+#************
+
+if is_arch; then
+  if [ -z "${BIBERCONF_AUR_HELPER:-}" ] || ! command -v "$BIBERCONF_AUR_HELPER" &>/dev/null; then
+    possible_aur_helpers=(yay paru aura pikaur trizen aurman pakku)
+    installed_aur_helpers=()
+    for aur_helper in "${possible_aur_helpers[@]}"; do
+      if command -v "$aur_helper" &>/dev/null; then
+        installed_aur_helpers+=("$aur_helper")
+      fi
+    done
+    echo_info "Choose an AUR helper or enter a custom one:"
+    select BIBERCONF_AUR_HELPER in "${installed_aur_helpers[@]}" custom; do
+      if [ "$BIBERCONF_AUR_HELPER" == custom ]; then
+        read -rp "Enter AUR helper name (e.g. paru): " BIBERCONF_AUR_HELPER
+      fi
+      if [ -n "$BIBERCONF_AUR_HELPER" ]; then
+        break
+      fi
+      echo "Invalid option, please try again."
+    done
+    if ! command -v "$BIBERCONF_AUR_HELPER" &>/dev/null; then
+      exit_error "$BIBERCONF_AUR_HELPER not installed. Please install an AUR helper and try again."
+    fi
+  fi
+fi
+
 #**************
 # requirements
 #**************
@@ -144,11 +176,11 @@ git submodule update --init --recursive
 if is_debian; then
   required_packages=(
     vim
-    entr  # for `git a` and `git as`
-    highlight  # for `ccat`
-    build-essential cmake  # for `stderred`
-    automake gcc make pkg-config libncurses-dev libreadline-dev  # for `hstr`
-    perl  # for uninstallation script
+    entr                                                        # for `git a` and `git as`
+    highlight                                                   # for `ccat`
+    build-essential cmake                                       # for `stderred`
+    automake gcc make pkg-config libncurses-dev libreadline-dev # for `hstr`
+    perl                                                        # for uninstallation script
   )
   if is_gui; then
     required_packages+=(
@@ -173,11 +205,11 @@ if is_debian; then
 elif is_arch; then
   required_packages=(
     extra/vim
-    extra/entr  # for `git a` and `git as`
+    extra/entr       # for `git a` and `git as`
     extra/highlight  # for `ccat`
-    core/base-devel extra/cmake  # for `stderred`
-    core/inetutils  # for `hostname`
-    core/perl  # for uninstallation script
+    aur/stderred-git # for `stderred`
+    core/inetutils   # for `hostname`
+    core/perl        # for uninstallation script
   )
   if is_gui; then
     required_packages+=(
@@ -187,7 +219,7 @@ elif is_arch; then
 
   not_installed_packages=()
   for package in "${required_packages[@]}"; do
-    if ! pacman -Qi "${package##*/}" &> /dev/null; then
+    if ! "$BIBERCONF_AUR_HELPER" -Qi "${package##*/}" &>/dev/null; then
       not_installed_packages+=("$package")
     fi
   done
@@ -195,7 +227,7 @@ elif is_arch; then
     read_reply "Installing required packages (${not_installed_packages[*]}), sudo required..." \
       "Press [Enter] to continue."
     set -x
-    sudo pacman --color auto -S "${not_installed_packages[@]}"
+    "$BIBERCONF_AUR_HELPER" --color auto -S "${not_installed_packages[@]}"
     set +x
   fi
 else
@@ -241,7 +273,7 @@ elif is_arch; then
   set -x
   if [ -f /usr/local/bin/hh ]; then sudo rm /usr/local/bin/hh; fi
   sudo make install
-  git checkout -- .  # because we changed some files with sed
+  git checkout -- . # because we changed some files with sed
   set +x
 fi
 
@@ -258,9 +290,11 @@ fi
 # stderred
 #**********
 
-cd .biberconf/thirdparty/stderred
-make
-cd ../../..
+if is_debian; then
+  cd .biberconf/thirdparty/stderred
+  make
+  cd ../../..
+fi
 
 #***********
 # dot files
@@ -305,14 +339,20 @@ for file in $files_to_prepend_to; do
 done
 
 # .bashrc
+if is_arch; then
+  if ! grep -q '^export BIBERCONF_AUR_HELPER=' "$bashrc_file"; then
+    echo "export BIBERCONF_AUR_HELPER=$BIBERCONF_AUR_HELPER" >>"$bashrc_file"
+    git add -- "$bashrc_file"
+  fi
+fi
 if ! grep -q '^source "\$HOME/\.biberconf/config/shell/.bashrc"$' "$bashrc_file"; then
-  echo 'source "$HOME/.biberconf/config/shell/.bashrc"' >> "$bashrc_file"
+  echo 'source "$HOME/.biberconf/config/shell/.bashrc"' >>"$bashrc_file"
   git add -- "$bashrc_file"
 fi
 
 # .profile
 if ! grep -q '^source "\$HOME/\.biberconf/config/shell/.profile"$' "$profile_file"; then
-  echo 'source "$HOME/.biberconf/config/shell/.profile"' >> "$profile_file"
+echo 'source "$HOME/.biberconf/config/shell/.profile"' >>"$profile_file"
   git add -- "$profile_file"
 fi
 
