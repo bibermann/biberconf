@@ -27,7 +27,6 @@ source ~/.biberconf/config/open.sh
 source ~/.biberconf/config/stderred.sh
 source ~/.biberconf/config/alert.sh
 source ~/.biberconf/config/ccat.sh
-source ~/.biberconf/config/pss.sh
 
 source ~/.biberconf/config/git/git.sh
 source ~/.biberconf/config/shell/bash-git-prompt.sh
