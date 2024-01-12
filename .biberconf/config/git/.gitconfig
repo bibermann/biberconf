@@ -1,5 +1,7 @@
 [include]
     path = ~/.biberconf/config/git/delta.gitconfig
+[init]
+    defaultBranch = main
 [core]
     editor = vim
 [color]
