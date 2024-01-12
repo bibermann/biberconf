@@ -1,3 +1,5 @@
+[include]
+    path = ~/.biberconf/config/git/delta.gitconfig
 [core]
     editor = vim
 [color]
@@ -15,9 +17,9 @@
 [alias]
     s = status
     d = !cd -- "./${GIT_PREFIX}" && ~/.biberconf/tools/git-diff-minimal.sh
-    l = log --graph --abbrev-commit --decorate \
+    l = !"git --no-pager log --graph --abbrev-commit --decorate \
         --format=format:'%C(yellow)%h%C(reset) %C(white)%s%C(reset) %C(dim white)%an%C(reset) %C(yellow)%ar%C(reset)%C(auto)%d%C(reset)' \
-        --color=always
+        --color=always $@ | less -R #"
     # requires entr
     #   sudo apt install entr
     a = !cd -- "./${GIT_PREFIX}" && ~/.biberconf/tools/git-auto-log.sh

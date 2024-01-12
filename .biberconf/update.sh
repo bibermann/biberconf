@@ -177,6 +177,7 @@ if is_debian; then
   required_packages=(
     vim
     entr                                                        # for `git a` and `git as`
+    git-delta                                                   # for git pager
     highlight                                                   # for `ccat`
     build-essential cmake                                       # for `stderred`
     automake gcc make pkg-config libncurses-dev libreadline-dev # for `hstr`
@@ -206,6 +207,7 @@ elif is_arch; then
   required_packages=(
     extra/vim
     extra/entr       # for `git a` and `git as`
+    extra/git-delta  # for git pager
     extra/highlight  # for `ccat`
     aur/stderred-git # for `stderred`
     core/inetutils   # for `hostname`
