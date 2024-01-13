@@ -1,0 +1,31 @@
+/*
+
+!/.biberconf/
+!/.github/
+!/.gitignore
+!/.gitmodules
+
+# directories containing included files or directories
+
+!/.config/
+/.config/*
+
+!/.config/git/
+/.config/git/*
+
+# included files or directories
+
+# bash
+#!/.bashrc
+#!/.bashrc-personal
+
+# git
+#!/.gitconfig
+#!/.config/git/config
+
+# shell
+#!/.profile
+#!/.profile-personal
+
+# vim
+#!/.vimrc
