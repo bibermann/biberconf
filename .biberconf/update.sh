@@ -322,6 +322,10 @@ fi
 
 # Commit existing dot files that we modify and are not versioned yet
 for file in "$bashrc_file" "$profile_file" "$gitconfig_file" .vimrc; do
+  sed -i -E 's/^#(!\/'"$(quote_re "$file")"')$/\1/g' .gitignore
+done
+git add .gitignore
+for file in "$bashrc_file" "$profile_file" "$gitconfig_file" .vimrc; do
   if [ -f "$file" ] && ! git ls-files --error-unmatch "$file" &>/dev/null; then
     git add -- "$file"
   fi
