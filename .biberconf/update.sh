@@ -50,6 +50,26 @@ else
   exit_error "Cannot install: Your working directory is not clean (see above)."
 fi
 
+#*************************************
+# temporary persist global git config
+#*************************************
+
+# Because while rebasing your custom branch, versioned dot files will not be present.
+
+if ! grep -q '^# === biberconf ===$' .git/config; then
+  temp_git_config="$(mktemp)"
+  git config --list --global --includes |
+    sed '/^include.path=/d' |
+    while IFS= read -r line; do
+      key="${line%%=*}"
+      value="${line#*=}"
+      git config -f "$temp_git_config" "$key" "$value"
+    done
+  echo '# === biberconf ===' >>.git/config
+  cat "$temp_git_config" >>.git/config
+  rm "$temp_git_config"
+fi
+
 #*************
 # self-update
 #*************
@@ -139,6 +159,12 @@ self_update "$@"
 
 git submodule sync --recursive
 git submodule update --init --recursive
+
+#*****************************
+# remove temporary git config
+#*****************************
+
+sed -i '/^# === biberconf ===$/,$d' .git/config
 
 #************
 # AUR helper
@@ -358,7 +384,7 @@ fi
 
 # .profile
 if ! grep -q '^source "\$HOME/\.biberconf/config/shell/.profile"$' "$profile_file"; then
-echo 'source "$HOME/.biberconf/config/shell/.profile"' >>"$profile_file"
+  echo 'source "$HOME/.biberconf/config/shell/.profile"' >>"$profile_file"
   git add -- "$profile_file"
 fi
 
