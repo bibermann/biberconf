@@ -201,7 +201,7 @@ fi
 
 if is_debian; then
   required_packages=(
-    vim
+    gvim                                                        # for x clipboard support in vim
     entr                                                        # for `git a` and `git as`
     git-delta                                                   # for git pager
     highlight                                                   # for `ccat`
@@ -231,7 +231,7 @@ if is_debian; then
   fi
 elif is_arch; then
   required_packages=(
-    extra/vim
+    extra/gvim       # for x clipboard support in vim
     extra/entr       # for `git a` and `git as`
     extra/git-delta  # for git pager
     extra/highlight  # for `ccat`
